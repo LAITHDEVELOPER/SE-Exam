@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>Software Engineering – Exam Mode (Ch1-2)</title>
+  <link rel="apple-touch-icon" href="https://i.postimg.cc/zB1mwJSw/Gemini-Generated-Image-li9bqeli9bqeli9b.png">
+<link rel="icon" href="https://i.postimg.cc/zB1mwJSw/Gemini-Generated-Image-li9bqeli9bqeli9b.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    body {
+      background: #eef2f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .exam-container {
+      max-width: 1000px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 12px 24px -10px rgba(0,0,0,0.12);
+      overflow: hidden;
+    }
+    .exam-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 18px 20px 12px 20px;
+      border-bottom: 1px solid #e9edf2;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .institution {
+      font-size: 26px;
+      font-weight: 700;
+      background: linear-gradient(135deg,#0b2b4d,#1a4a7a);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .timer-area {
+      background: #f8fafc;
+      padding: 5px 14px;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+    .time-left-text {
+      font-weight: 600;
+      color: #0f3b5c;
+    }
+    #timerDisplay {
+      font-family: monospace;
+      font-weight: 700;
+      font-size: 1.2rem;
+      background: #fff1e6;
+      padding: 3px 10px;
+      border-radius: 30px;
+      color: #c2410c;
+    }
+    .question-progress {
+      padding: 16px 20px 0 20px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .question-badge {
+      background: #eef2ff;
+      padding: 4px 14px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #1e4a76;
+    }
+    .question-body {
+      padding: 16px 20px 20px 20px;
+    }
+    .question-text {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      color: #0b2b3b;
+      white-space: pre-wrap;
+    }
+    .options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fbfdff;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 12px 16px;
+      cursor: pointer;
+    }
+    .option-item:hover {
+      background: #f6fafe;
+    }
+    input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      accent-color: #1e6f9f;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .option-letter {
+      font-weight: 700;
+      font-size: 1.1rem;
+      min-width: 32px;
+      color: #2c6496;
+    }
+    .option-text {
+      font-size: 0.95rem;
+      color: #1f2e3a;
+      flex: 1;
+      white-space: pre-wrap;
+    }
+    .correct-user-choice {
+      background: #d4edda;
+      border-color: #2b8c4a;
+    }
+    .wrong-user-choice {
+      background: #f8d7da;
+      border-color: #dc3545;
+    }
+    .correct-answer-display {
+      background: #d4edda;
+      border-color: #2b8c4a;
+    }
+    .feedback-icon {
+      margin-left: 8px;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+    .icon-correct { color: #155724; }
+    .icon-wrong { color: #721c24; }
+    .action-buttons {
+      padding: 8px 20px 20px 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      border-top: 1px solid #edf2f7;
+    }
+    .nav-buttons {
+      display: flex;
+      gap: 16px;
+    }
+    .nav-btn {
+      background: #f1f4f9;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: #1e4663;
+    }
+    .nav-btn-primary {
+      background: #1e6f9f;
+      color: white;
+    }
+    .submit-btn {
+      background: #2b6e3b;
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .result-area {
+      padding: 18px 20px 24px;
+      background: #f8fafc;
+      border-top: 1px solid #e2edf7;
+      text-align: center;
+    }
+    footer {
+      font-size: 11px;
+      text-align: center;
+      padding: 14px;
+      color: #8ba0b0;
+    }
+    @media (max-width: 550px) {
+      body { padding: 12px; }
+      .exam-header { padding: 14px 16px 10px; }
+      .institution { font-size: 22px; }
+      .question-progress, .question-body, .action-buttons { padding-left: 16px; padding-right: 16px; }
+      .question-text { font-size: 1.25rem; }
+      .option-item { padding: 10px 12px; }
+      .option-letter { font-size: 1rem; min-width: 28px; }
+      .option-text { font-size: 0.9rem; }
+      .nav-btn, .submit-btn { padding: 8px 18px; font-size: 0.8rem; }
+      .timer-area { font-size: 0.75rem; }
+      #timerDisplay { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="exam-container" id="examApp">
+  <div class="exam-header">
+    <div class="institution">AAU</div>
+    <div class="timer-area"><span>⏱️</span><span class="time-left-text">Time left</span><span id="timerDisplay">60:00</span></div>
+  </div>
+  <div class="question-progress">
+    <div class="question-badge">Question <span id="currentQNumber">1</span> of <span id="totalQCount">72</span></div>
+    <div id="statusMsg"></div>
+  </div>
+  <div class="question-body">
+    <div class="question-text" id="questionText">Loading exam...</div>
+    <div class="options-list" id="optionsContainer"></div>
+  </div>
+  <div class="action-buttons">
+    <button class="nav-btn" id="clearChoiceBtn">🗑️ Clear choice</button>
+    <div class="nav-buttons">
+      <button class="nav-btn" id="prevBtn">◀ Previous</button>
+      <button class="nav-btn nav-btn-primary" id="nextBtn">Next ▶</button>
+    </div>
+  </div>
+  <div style="padding: 0 20px 20px 20px; text-align: right;"><button class="submit-btn" id="submitExamBtn">📝 Submit Exam</button></div>
+  <div id="resultPanel" class="result-area" style="display: none;"></div>
+  <footer><h3>© Developed By Laith Arabiat</h3></footer>
+</div>
+
+<script>
+// ==================== SAME 72 QUESTIONS AS STUDY MODE ====================
+const RAW_QUESTIONS = [
+  { text: "According to Pressman & Maxim, software consists of three interconnected components. Which of the following is NOT one of them?", options: ["Instructions (programs)", "Data structures", "Descriptive information", "User manuals only"], correctText: "User manuals only" },
+  { text: "What does PQCT stand for in software engineering (Kung)?", options: ["Productivity, Quality, Cost, Time to market", "Process, Quality, Code, Testing", "Planning, Query, Control, Traceability", "Performance, Quantity, Cost, Technology"], correctText: "Productivity, Quality, Cost, Time to market" },
+  { text: "True or False: The term 'software engineering' was first proposed at a NATO conference in 1968 to address the 'software crisis'.", options: ["True", "False"], correctText: "True" },
+  { text: "Fill in the blank: According to Pressman, the bedrock layer of software engineering is ______.", options: ["Quality focus", "Process", "Methods", "Tools"], correctText: "Quality focus" },
+  { text: "Which of the following best describes the difference between Computer Science and Software Engineering?", options: ["CS focuses on optimal solutions; SE focuses on good-enough solutions with cost/time constraints", "CS is about hardware; SE is about software only", "CS and SE are identical", "CS is only theoretical without any practical use"], correctText: "CS focuses on optimal solutions; SE focuses on good-enough solutions with cost/time constraints" },
+  { text: "Why does software 'deteriorate' even though it doesn't 'wear out'?", options: ["Because of physical wear on storage media", "Every change introduces potential new errors; cumulative changes cause quality degradation", "Software has a limited lifespan like hardware", "Because of dust and heat"], correctText: "Every change introduces potential new errors; cumulative changes cause quality degradation" },
+  { text: "Which of the following is an example of system software?", options: ["Word processor", "Excel spreadsheet", "Operating system compiler", "E-commerce website"], correctText: "Operating system compiler" },
+  { text: "List the four layers of software engineering according to Pressman (in order from bottom to top):", options: ["Quality focus, Process, Methods, Tools", "Process, Quality focus, Tools, Methods", "Methods, Tools, Quality focus, Process", "Tools, Methods, Process, Quality focus"], correctText: "Quality focus, Process, Methods, Tools" },
+  { text: "True or False: Legacy software is always easy to maintain and well-documented.", options: ["True", "False"], correctText: "False" },
+  { text: "Fill in the blank: The primary quality criterion measured by ______ is defects per KLOC.", options: ["Reliability", "Performance", "Usability", "Portability"], correctText: "Reliability" },
+  { text: "According to the ISO/IEC 9126 standard, which quality characteristic is generally accepted as the most critical?", options: ["Functionality", "Performance", "Reliability", "Usability"], correctText: "Reliability" },
+  { text: "Jalote's three strategies to improve productivity and quality are: Good processes & methods, Open source software, and ______.", options: ["Large Language Models (LLMs)", "Waterfall model", "Pair programming", "Six Sigma"], correctText: "Large Language Models (LLMs)" },
+  { text: "True or False: Delivered productivity is measured only by the lines of code written by the team, excluding libraries.", options: ["True", "False"], correctText: "False" },
+  { text: "The ACM/IEEE Code of Ethics has how many principles?", options: ["8", "6", "10", "12"], correctText: "8" },
+  { text: "Match the principle: 'Act consistently with the public interest' corresponds to which ACM/IEEE principle?", options: ["PUBLIC", "CLIENT AND EMPLOYER", "PRODUCT", "JUDGMENT"], correctText: "PUBLIC" },
+  { text: "A copyleft license (e.g., GPL) requires that:", options: ["Any derivative work must also be open source under the same license", "The software can be used in proprietary products freely", "Only attribution is required", "No distribution is allowed"], correctText: "Any derivative work must also be open source under the same license" },
+  { text: "Which open source license is the most permissive, allowing closed-source commercial derivatives with only a copyright notice?", options: ["GPL", "LGPL", "MIT", "Apache"], correctText: "MIT" },
+  { text: "Fill in the blank: In prompt engineering, providing one or a few examples to guide the LLM is called ______ prompting.", options: ["Zero-shot", "One-shot / Few-shot", "Role prompting", "Chain-of-thought"], correctText: "One-shot / Few-shot" },
+  { text: "List the five components of an effective LLM prompt according to Jalote:", options: ["Task Description, Input Data, Output Format, Additional Instructions, Evaluation Criteria", "Command, Context, Output, Style, Length", "Question, Examples, Answer, Format, Language", "Topic, Tone, Length, References, Deadline"], correctText: "Task Description, Input Data, Output Format, Additional Instructions, Evaluation Criteria" },
+  { text: "True or False: 'Chain-of-thought' prompting instructs the LLM to solve a problem step-by-step.", options: ["True", "False"], correctText: "True" },
+  { text: "What is the key distinction between a software process and a software methodology?", options: ["Process defines WHAT and WHEN; Methodology defines HOW", "Process defines HOW; Methodology defines WHAT", "They are the same", "Process is for management, methodology is for coding"], correctText: "Process defines WHAT and WHEN; Methodology defines HOW" },
+  { text: "According to Rittel, which type of problem has no definite formulation and the specification is the solution?", options: ["Tame problem", "Wicked problem", "Structured problem", "Algorithmic problem"], correctText: "Wicked problem" },
+  { text: "The Waterfall model is best suited when:", options: ["Requirements are stable and well-understood", "Requirements are constantly changing", "User feedback is needed early", "Risk management is critical"], correctText: "Requirements are stable and well-understood" },
+  { text: "True or False: In the Waterfall model, each phase must be completely finished before the next begins.", options: ["True", "False"], correctText: "True" },
+  { text: "Which model extends Waterfall by explicitly planning testing phases alongside development phases?", options: ["Spiral", "V-Model", "Incremental", "Prototyping"], correctText: "V-Model" },
+  { text: "Fill in the blank: In the V-Model, the left side represents development phases, and the right side represents ______ phases.", options: ["Testing", "Deployment", "Maintenance", "Design"], correctText: "Testing" },
+  { text: "Which model delivers working software in stages, with each increment passing through all phases and delivering a production-quality product?", options: ["Waterfall", "V-Model", "Incremental", "Spiral"], correctText: "Incremental" },
+  { text: "Which of the following is an advantage of the Incremental model?", options: ["Working software delivered early", "No need for upfront planning", "Avoids integration complexity", "Low total cost"], correctText: "Working software delivered early" },
+  { text: "A throwaway prototype is built to:", options: ["Evolve into the final system", "Validate requirements and then discard", "Serve as the final production code", "Replace documentation"], correctText: "Validate requirements and then discard" },
+  { text: "True or False: In the Evolutionary model, the prototype is thrown away after requirements are validated.", options: ["True", "False"], correctText: "False" },
+  { text: "Which model is uniquely characterized by its emphasis on risk management, proposed by Barry Boehm?", options: ["Waterfall", "V-Model", "Spiral", "Agile"], correctText: "Spiral" },
+  { text: "Fill in the blank: The Spiral model has four quadrants per loop: Determine objectives, Identify and resolve risks, Development and testing, and ______.", options: ["Plan next iteration", "Deployment", "Maintenance", "Documentation"], correctText: "Plan next iteration" },
+  { text: "List the four values of the Agile Manifesto (as a multiple choice):", options: ["Individuals and interactions over processes and tools, Working software over comprehensive documentation, Customer collaboration over contract negotiation, Responding to change over following a plan", "Processes over people, Documentation over working software, Contract over collaboration, Plan over change", "Tools over individuals, Comprehensive documentation over working software, Negotiation over collaboration, Following plan over responding to change", "Speed over quality, Features over stability, Marketing over engineering, Cost over value"], correctText: "Individuals and interactions over processes and tools, Working software over comprehensive documentation, Customer collaboration over contract negotiation, Responding to change over following a plan" },
+  { text: "In Scrum, who owns and prioritizes the Product Backlog?", options: ["Scrum Master", "Development Team", "Product Owner", "Project Manager"], correctText: "Product Owner" },
+  { text: "The typical length of a Sprint in Scrum is:", options: ["1 day", "1-4 weeks", "6 months", "1 year"], correctText: "1-4 weeks" },
+  { text: "Which XP practice requires two developers to share one keyboard, reviewing each other's code in real time?", options: ["Test-Driven Development", "Pair Programming", "Continuous Integration", "Refactoring"], correctText: "Pair Programming" },
+  { text: "Fill in the blank: The Red-Green-Refactor cycle is central to the XP practice of ______.", options: ["Test-Driven Development (TDD)", "Continuous Integration", "Small Releases", "Collective Ownership"], correctText: "Test-Driven Development (TDD)" },
+  { text: "Kanban's primary mechanism to prevent team overload and expose bottlenecks is:", options: ["Sprint planning", "Daily standups", "Work-in-Progress (WIP) limits", "Retrospectives"], correctText: "Work-in-Progress (WIP) limits" },
+  { text: "True or False: Kanban uses fixed-length iterations (sprints).", options: ["True", "False"], correctText: "False" },
+  { text: "Which software process model is risk-driven and most suitable for large, complex systems with evolving requirements?", options: ["Waterfall", "V-Model", "Spiral", "Kanban"], correctText: "Spiral" },
+  { text: "In the Incremental model, the first increment should deliver:", options: ["The most complex feature", "Core product addressing fundamental requirements", "Complete documentation", "The user interface only"], correctText: "Core product addressing fundamental requirements" },
+  { text: "True or False: The V-Model ensures that test cases are designed only after coding is complete.", options: ["True", "False"], correctText: "False" },
+  { text: "Which of the following is NOT a framework activity in Pressman's generic process model?", options: ["Communication", "Planning", "Modeling", "Risk analysis"], correctText: "Risk analysis" },
+  { text: "Sommerville's four fundamental software process activities are: Specification, Development, Validation, and ______.", options: ["Evolution", "Deployment", "Maintenance", "Testing"], correctText: "Evolution" },
+  { text: "Kung's three tracks of software development are: Development activities, QA activities, and ______ activities.", options: ["Project management", "Deployment", "Documentation", "Training"], correctText: "Project management" },
+  { text: "Which of the following is an essential software attribute according to Sommerville?", options: ["Acceptability", "Dependability & Security", "Maintainability", "All of the above"], correctText: "All of the above" },
+  { text: "The 'bathtub curve' describes failure rates for:", options: ["Software", "Hardware", "Both software and hardware", "Neither"], correctText: "Hardware" },
+  { text: "True or False: Open source libraries can improve delivered productivity because they have near-zero defect density when mature.", options: ["True", "False"], correctText: "True" },
+  { text: "Fill in the blank: The ______ principle of the ACM/IEEE code emphasizes lifelong learning and promoting ethical practice.", options: ["SELF", "PROFESSION", "JUDGMENT", "MANAGEMENT"], correctText: "SELF" },
+  { text: "Which Agile framework focuses primarily on engineering practices such as TDD, pair programming, and continuous integration?", options: ["Scrum", "Kanban", "Extreme Programming (XP)", "Lean"], correctText: "Extreme Programming (XP)" },
+  { text: "In Scrum, the event where the team demonstrates working software to stakeholders is called:", options: ["Sprint Planning", "Daily Scrum", "Sprint Review", "Sprint Retrospective"], correctText: "Sprint Review" },
+  { text: "True or False: A user story in Scrum must be written in the format: 'As a [user], I want [goal] so that [benefit].'", options: ["True", "False"], correctText: "True" },
+  { text: "Which process model explicitly includes a risk analysis quadrant in every cycle?", options: ["Waterfall", "V-Model", "Spiral", "Incremental"], correctText: "Spiral" },
+  { text: "Fill in the blank: The main artefact in Scrum that contains all requirements is the ______.", options: ["Product Backlog", "Sprint Backlog", "Burn-down chart", "Task board"], correctText: "Product Backlog" },
+  { text: "Which of the following is an advantage of the prototyping model?", options: ["Reduces requirements misunderstanding early", "Requires no user involvement", "Produces final production code directly", "Avoids any waste of effort"], correctText: "Reduces requirements misunderstanding early" },
+  { text: "True or False: In the Evolutionary model, the prototype must be built with operational functionality and robustness from the start.", options: ["True", "False"], correctText: "True" },
+  { text: "The Spiral model was proposed by:", options: ["Kent Beck", "Barry Boehm", "Winston Royce", "Ken Schwaber"], correctText: "Barry Boehm" },
+  { text: "List the five framework activities of the generic software process according to Pressman (in order):", options: ["Communication, Planning, Modeling, Construction, Deployment", "Planning, Analysis, Design, Implementation, Testing", "Requirements, Design, Coding, Testing, Maintenance", "Initiation, Execution, Monitoring, Closure, Support"], correctText: "Communication, Planning, Modeling, Construction, Deployment" },
+  { text: "Which of the following best describes a 'wicked problem'?", options: ["Easy to specify and solve", "Requires infinite steps and has no stopping rule", "Has finite steps and a correct solution", "Suitable for algorithmic approaches"], correctText: "Requires infinite steps and has no stopping rule" },
+  { text: "In the V-Model, the phase that corresponds to 'System Testing' on the right side is paired with which development phase on the left?", options: ["Requirements Analysis", "System Design", "Architectural Design", "Module Design"], correctText: "System Design" },
+  { text: "True or False: Prototyping is only useful for user interface design.", options: ["True", "False"], correctText: "False" },
+  { text: "Fill in the blank: The 'on-site customer' practice belongs to the ______ framework.", options: ["Scrum", "XP (Extreme Programming)", "Kanban", "Spiral"], correctText: "XP (Extreme Programming)" },
+  { text: "Which metric is used to measure software reliability in practice?", options: ["Defect density (defects per KLOC)", "Lines of code", "Number of users", "Response time"], correctText: "Defect density (defects per KLOC)" },
+  { text: "Which open source license is often called 'viral' because it requires derivative works to also be open source?", options: ["MIT", "Apache", "GPL", "BSD"], correctText: "GPL" },
+  { text: "True or False: Prompt chaining involves breaking a complex task into subtasks, where each prompt's output becomes input to the next.", options: ["True", "False"], correctText: "True" }
+];
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+let examQuestions = RAW_QUESTIONS.map(q => {
+  const shuffledOpts = shuffleArray([...q.options]);
+  return { text: q.text, options: shuffledOpts, correctText: q.correctText };
+});
+
+const total = examQuestions.length;
+let currentIndex = 0;
+let userSelections = new Array(total).fill(null);
+
+const questionTextEl = document.getElementById("questionText");
+const optionsContainer = document.getElementById("optionsContainer");
+const currentQSpan = document.getElementById("currentQNumber");
+const totalQSpan = document.getElementById("totalQCount");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const clearBtn = document.getElementById("clearChoiceBtn");
+const submitBtn = document.getElementById("submitExamBtn");
+const resultPanel = document.getElementById("resultPanel");
+const timerDisplay = document.getElementById("timerDisplay");
+
+totalQSpan.textContent = total;
+let timeSeconds = 60 * 60;
+let timerInterval = null;
+
+function formatTime(sec) {
+  let mins = Math.floor(sec / 60);
+  let remain = sec % 60;
+  return `${mins.toString().padStart(2,'0')}:${remain.toString().padStart(2,'0')}`;
+}
+function startTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    if (timeSeconds <= 0) {
+      clearInterval(timerInterval);
+      timerDisplay.textContent = "00:00";
+      alert("Time is up! Submitting exam.");
+      finishExam();
+    } else {
+      timeSeconds--;
+      timerDisplay.textContent = formatTime(timeSeconds);
+    }
+  }, 1000);
+}
+function stopTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = null; }
+function finishExam() {
+  stopTimer();
+  let score = 0;
+  for (let i = 0; i < total; i++) if (userSelections[i] && userSelections[i] === examQuestions[i].correctText) score++;
+  resultPanel.style.display = "block";
+  resultPanel.innerHTML = `<div style="background:#e6f3e6; padding:14px; border-radius:50px;">✅ Exam submitted! Score: ${score} / ${total} (${Math.round(score/total*100)}%)</div>`;
+  prevBtn.disabled = nextBtn.disabled = clearBtn.disabled = submitBtn.disabled = true;
+  document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
+}
+function applyFeedback() {
+  const selected = userSelections[currentIndex];
+  const correctAns = examQuestions[currentIndex].correctText;
+  const items = document.querySelectorAll('.option-item');
+  items.forEach(div => { div.classList.remove('correct-user-choice','wrong-user-choice','correct-answer-display'); const icon = div.querySelector('.feedback-icon'); if(icon) icon.remove(); });
+  if (!selected) return;
+  const isUserCorrect = (selected === correctAns);
+  items.forEach(div => {
+    const optSpan = div.querySelector('.option-text');
+    let optText = optSpan.innerText.replace(/[✓✗]/g,'').trim();
+    if (optText === correctAns) {
+      div.classList.add('correct-answer-display');
+      if (!div.querySelector('.feedback-icon')) { let ic = document.createElement('span'); ic.className = 'feedback-icon icon-correct'; ic.innerHTML = ' ✓'; optSpan.appendChild(ic); }
+    }
+  });
+  items.forEach(div => {
+    const optSpan = div.querySelector('.option-text');
+    let optText = optSpan.innerText.replace(/[✓✗]/g,'').trim();
+    if (optText === selected) {
+      if (isUserCorrect) { div.classList.add('correct-user-choice'); if (!div.querySelector('.feedback-icon')) { let ic = document.createElement('span'); ic.className = 'feedback-icon icon-correct'; ic.innerHTML = ' ✓'; optSpan.appendChild(ic); } }
+      else { div.classList.add('wrong-user-choice'); if (!div.querySelector('.feedback-icon')) { let ic = document.createElement('span'); ic.className = 'feedback-icon icon-wrong'; ic.innerHTML = ' ✗'; optSpan.appendChild(ic); } }
+    }
+  });
+}
+function renderCurrent() {
+  const q = examQuestions[currentIndex];
+  questionTextEl.textContent = q.text;
+  const letters = ['A','B','C','D'];
+  let html = '';
+  q.options.forEach((opt, idx) => {
+    const letter = letters[idx];
+    const checked = (userSelections[currentIndex] === opt);
+    html += `<div class="option-item"><input type="radio" name="questionOption" value="${escapeHtml(opt)}" id="opt_${idx}" ${checked ? 'checked' : ''}><span class="option-letter">${letter}.</span><span class="option-text">${escapeHtml(opt)}</span></div>`;
+  });
+  optionsContainer.innerHTML = html;
+  currentQSpan.textContent = currentIndex+1;
+  document.querySelectorAll('input[name="questionOption"]').forEach(radio => radio.addEventListener('change', (e) => { userSelections[currentIndex] = e.target.value; applyFeedback(); }));
+  document.querySelectorAll('.option-item').forEach(item => item.addEventListener('click', (e) => { const radio = item.querySelector('input[type="radio"]'); if(radio && !radio.checked){ radio.checked=true; userSelections[currentIndex]=radio.value; const ev=new Event('change'); radio.dispatchEvent(ev); } }));
+  if (userSelections[currentIndex]) applyFeedback();
+}
+function escapeHtml(str) { return str.replace(/[&<>]/g, m => m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
+function clearChoice() { userSelections[currentIndex] = null; renderCurrent(); }
+function navigate(delta) {
+  let newIdx = currentIndex + delta;
+  if (newIdx >=0 && newIdx < total) { currentIndex = newIdx; renderCurrent(); }
+  nextBtn.textContent = (currentIndex === total-1) ? "⏩ Last" : "Next ▶";
+}
+prevBtn.onclick = () => navigate(-1);
+nextBtn.onclick = () => { if (currentIndex < total-1) navigate(1); };
+clearBtn.onclick = clearChoice;
+submitBtn.onclick = () => { if(confirm("Submit exam? You cannot change answers after.")) finishExam(); };
+renderCurrent();
+startTimer();
+</script>
+</body>
+</html>
