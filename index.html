@@ -1,428 +1,1297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-  <title>Software Engineering – Exam Mode (Ch1-2)</title>
-  <link rel="apple-touch-icon" href="https://i.postimg.cc/zB1mwJSw/Gemini-Generated-Image-li9bqeli9bqeli9b.png">
-<link rel="icon" href="https://i.postimg.cc/zB1mwJSw/Gemini-Generated-Image-li9bqeli9bqeli9b.png">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    body {
-      background: #eef2f5;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    .exam-container {
-      max-width: 1000px;
-      width: 100%;
-      background: #ffffff;
-      border-radius: 28px;
-      box-shadow: 0 12px 24px -10px rgba(0,0,0,0.12);
-      overflow: hidden;
-    }
-    .exam-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 18px 20px 12px 20px;
-      border-bottom: 1px solid #e9edf2;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    .institution {
-      font-size: 26px;
-      font-weight: 700;
-      background: linear-gradient(135deg,#0b2b4d,#1a4a7a);
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-    }
-    .timer-area {
-      background: #f8fafc;
-      padding: 5px 14px;
-      border-radius: 50px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.85rem;
-    }
-    .time-left-text {
-      font-weight: 600;
-      color: #0f3b5c;
-    }
-    #timerDisplay {
-      font-family: monospace;
-      font-weight: 700;
-      font-size: 1.2rem;
-      background: #fff1e6;
-      padding: 3px 10px;
-      border-radius: 30px;
-      color: #c2410c;
-    }
-    .question-progress {
-      padding: 16px 20px 0 20px;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .question-badge {
-      background: #eef2ff;
-      padding: 4px 14px;
-      border-radius: 30px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #1e4a76;
-    }
-    .question-body {
-      padding: 16px 20px 20px 20px;
-    }
-    .question-text {
-      font-size: 1.4rem;
-      font-weight: 600;
-      margin-bottom: 24px;
-      color: #0b2b3b;
-      white-space: pre-wrap;
-    }
-    .options-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 28px;
-    }
-    .option-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #fbfdff;
-      border: 1px solid #e2e8f0;
-      border-radius: 20px;
-      padding: 12px 16px;
-      cursor: pointer;
-    }
-    .option-item:hover {
-      background: #f6fafe;
-    }
-    input[type="radio"] {
-      width: 20px;
-      height: 20px;
-      accent-color: #1e6f9f;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    .option-letter {
-      font-weight: 700;
-      font-size: 1.1rem;
-      min-width: 32px;
-      color: #2c6496;
-    }
-    .option-text {
-      font-size: 0.95rem;
-      color: #1f2e3a;
-      flex: 1;
-      white-space: pre-wrap;
-    }
-    .correct-user-choice {
-      background: #d4edda;
-      border-color: #2b8c4a;
-    }
-    .wrong-user-choice {
-      background: #f8d7da;
-      border-color: #dc3545;
-    }
-    .correct-answer-display {
-      background: #d4edda;
-      border-color: #2b8c4a;
-    }
-    .feedback-icon {
-      margin-left: 8px;
-      font-weight: bold;
-      font-size: 0.95rem;
-    }
-    .icon-correct { color: #155724; }
-    .icon-wrong { color: #721c24; }
-    .action-buttons {
-      padding: 8px 20px 20px 20px;
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      border-top: 1px solid #edf2f7;
-    }
-    .nav-buttons {
-      display: flex;
-      gap: 16px;
-    }
-    .nav-btn {
-      background: #f1f4f9;
-      border: none;
-      padding: 10px 22px;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-      color: #1e4663;
-    }
-    .nav-btn-primary {
-      background: #1e6f9f;
-      color: white;
-    }
-    .submit-btn {
-      background: #2b6e3b;
-      color: white;
-      border: none;
-      padding: 10px 22px;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 0.85rem;
-      cursor: pointer;
-    }
-    .result-area {
-      padding: 18px 20px 24px;
-      background: #f8fafc;
-      border-top: 1px solid #e2edf7;
-      text-align: center;
-    }
-    footer {
-      font-size: 11px;
-      text-align: center;
-      padding: 14px;
-      color: #8ba0b0;
-    }
-    @media (max-width: 550px) {
-      body { padding: 12px; }
-      .exam-header { padding: 14px 16px 10px; }
-      .institution { font-size: 22px; }
-      .question-progress, .question-body, .action-buttons { padding-left: 16px; padding-right: 16px; }
-      .question-text { font-size: 1.25rem; }
-      .option-item { padding: 10px 12px; }
-      .option-letter { font-size: 1rem; min-width: 28px; }
-      .option-text { font-size: 0.9rem; }
-      .nav-btn, .submit-btn { padding: 8px 18px; font-size: 0.8rem; }
-      .timer-area { font-size: 0.75rem; }
-      #timerDisplay { font-size: 1rem; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Software Engineering – Exam & Study App</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,'Segoe UI',sans-serif}
+body{background:#0f172a;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.app{max-width:1050px;width:100%;background:#1e293b;border-radius:28px;box-shadow:0 24px 48px -12px rgba(0,0,0,.6);overflow:hidden;border:1px solid #334155}
+
+/* HOME */
+.home{padding:40px 32px;text-align:center}
+.home-logo{font-size:2.6rem;margin-bottom:8px}
+.home h1{font-size:2rem;font-weight:800;background:linear-gradient(135deg,#38bdf8,#818cf8);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
+.home-sub{color:#94a3b8;margin-bottom:8px;font-size:.93rem}
+.home-chapters{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:26px;margin-top:14px}
+.ch-pill{background:#1e3a5f;border:1.5px solid #3b82f6;border-radius:50px;padding:7px 20px;font-size:.8rem;font-weight:700;cursor:pointer;color:#93c5fd;transition:.15s}
+.ch-pill.active{background:#3b82f6;color:#fff;border-color:#3b82f6}
+.home-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:26px}
+.home-card{background:#0f172a;border:1.5px solid #334155;border-radius:20px;padding:26px 22px;cursor:pointer;transition:.2s;text-align:left}
+.home-card:hover{border-color:#38bdf8;background:#1a2744;transform:translateY(-2px)}
+.home-card-icon{font-size:1.8rem;margin-bottom:10px}
+.home-card h2{font-size:1.1rem;color:#e2e8f0;margin-bottom:5px;font-weight:700}
+.home-card p{font-size:.8rem;color:#64748b;line-height:1.5}
+.start-btn{background:linear-gradient(135deg,#3b82f6,#818cf8);color:#fff;border:none;padding:13px 42px;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:.3px}
+.start-btn:hover{opacity:.9;transform:translateY(-1px)}
+
+/* HEADER */
+.exam-header{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;border-bottom:1px solid #334155;flex-wrap:wrap;gap:8px;background:#0f172a}
+.logo-text{font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#38bdf8,#818cf8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.timer-box{background:#1e1a10;border:1.5px solid #f59e0b;padding:4px 16px;border-radius:30px;font-family:monospace;font-size:1.1rem;font-weight:700;color:#f59e0b}
+.mode-badge{background:#1e3a5f;padding:4px 14px;border-radius:30px;font-size:.78rem;font-weight:600;color:#38bdf8;border:1px solid #3b82f6}
+.home-btn{background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:.78rem;font-weight:600}
+.home-btn:hover{background:#334155;color:#e2e8f0}
+
+/* TYPE TABS */
+.type-tabs{display:flex;gap:6px;padding:14px 20px 0;flex-wrap:wrap;background:#1e293b}
+.type-tab{padding:6px 14px;border-radius:50px;font-size:.76rem;font-weight:600;border:1.5px solid #334155;cursor:pointer;color:#64748b;background:#0f172a;transition:.15s;white-space:nowrap}
+.type-tab:hover{border-color:#38bdf8;color:#38bdf8}
+.type-tab.active{background:#3b82f6;color:#fff;border-color:#3b82f6}
+
+/* PROGRESS */
+.progress-bar{height:3px;background:#1e293b;margin:10px 20px 0}
+.progress-fill{height:100%;background:linear-gradient(90deg,#38bdf8,#818cf8);border-radius:4px;transition:width .35s}
+.q-info{padding:10px 22px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.q-badge{background:#1e3a5f;padding:4px 14px;border-radius:30px;font-size:.78rem;font-weight:600;color:#38bdf8}
+.score-badge{background:#14532d;padding:4px 14px;border-radius:30px;font-size:.78rem;font-weight:600;color:#4ade80}
+
+/* QUESTION BODY */
+.q-body{padding:18px 22px 10px}
+.q-type-label{display:inline-block;background:#1e3a2f;color:#34d399;font-size:.7rem;font-weight:700;padding:3px 12px;border-radius:30px;margin-bottom:10px;letter-spacing:.5px;border:1px solid #065f46}
+.q-chapter-label{display:inline-block;background:#1e1a3f;color:#a78bfa;font-size:.7rem;font-weight:700;padding:3px 12px;border-radius:30px;margin-bottom:10px;margin-left:6px;letter-spacing:.5px;border:1px solid #4c1d95}
+.q-text{font-size:1.2rem;font-weight:600;color:#e2e8f0;margin-bottom:18px;white-space:pre-wrap;line-height:1.55}
+
+/* MCQ */
+.options-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.option-item{display:flex;align-items:center;gap:12px;background:#0f172a;border:1.5px solid #334155;border-radius:16px;padding:11px 16px;cursor:pointer;transition:.15s}
+.option-item:hover{background:#1e293b;border-color:#38bdf8}
+.option-item input[type=radio]{width:18px;height:18px;accent-color:#3b82f6;cursor:pointer;flex-shrink:0}
+.opt-letter{font-weight:700;font-size:1rem;min-width:26px;color:#60a5fa}
+.opt-text{font-size:.9rem;color:#cbd5e1;flex:1}
+.opt-correct{background:#052e16!important;border-color:#22c55e!important}
+.opt-wrong{background:#2d0a0a!important;border-color:#ef4444!important}
+.opt-show-correct{background:#052e16!important;border-color:#22c55e!important}
+
+/* FILL BLANK */
+.blank-wrap{margin-bottom:16px}
+.blank-input{background:#0f172a;border:2px solid #334155;border-radius:12px;padding:10px 14px;font-size:1rem;width:100%;max-width:520px;outline:none;transition:.15s;color:#e2e8f0}
+.blank-input:focus{border-color:#3b82f6}
+.blank-input.correct{border-color:#22c55e;background:#052e16}
+.blank-input.wrong{border-color:#ef4444;background:#2d0a0a}
+.blank-check-btn{background:#3b82f6;color:#fff;border:none;padding:9px 24px;border-radius:50px;font-weight:600;cursor:pointer;margin-top:10px;margin-bottom:14px;font-size:.85rem}
+.feedback-box{padding:10px 16px;border-radius:12px;font-size:.88rem;font-weight:600;margin-bottom:12px}
+.feedback-correct{background:#052e16;color:#4ade80;border:1px solid #16a34a}
+.feedback-wrong{background:#2d0a0a;color:#f87171;border:1px solid #dc2626}
+
+/* ENUMERATE */
+.enum-list{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.enum-list li{display:flex;align-items:flex-start;gap:10px;background:#0f172a;border:1.5px solid #334155;border-radius:14px;padding:10px 14px;font-size:.9rem;color:#cbd5e1;line-height:1.5}
+.enum-num{font-weight:700;color:#38bdf8;min-width:24px;flex-shrink:0}
+.reveal-btn{background:#1e293b;border:1px solid #475569;padding:8px 20px;border-radius:50px;font-weight:600;font-size:.83rem;cursor:pointer;color:#94a3b8;margin-bottom:10px}
+.reveal-btn:hover{background:#334155;color:#e2e8f0}
+.enum-hidden{filter:blur(5px);user-select:none;transition:.3s}
+.enum-visible{filter:none;transition:.3s}
+
+/* MATCHING */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.match-col-header{font-weight:700;color:#38bdf8;font-size:.78rem;text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px}
+.match-left-item{background:#1e3a5f;border:1.5px solid #1d4ed8;border-radius:12px;padding:9px 13px;font-size:.84rem;font-weight:600;color:#93c5fd;margin-bottom:7px;cursor:pointer;transition:.15s;line-height:1.4}
+.match-left-item:hover{background:#1e40af;border-color:#60a5fa}
+.match-left-item.selected{background:#3b82f6;color:#fff;border-color:#60a5fa}
+.match-left-item.matched-correct{background:#052e16;border-color:#22c55e;color:#4ade80;cursor:default}
+.match-left-item.matched-wrong{background:#2d0a0a;border-color:#ef4444;color:#f87171;cursor:default}
+.match-right-item{background:#1a1a2e;border:1.5px solid #4c1d95;border-radius:12px;padding:9px 13px;font-size:.84rem;color:#c4b5fd;margin-bottom:7px;cursor:pointer;transition:.15s;line-height:1.4}
+.match-right-item:hover{background:#2d1b69;border-color:#7c3aed}
+.match-right-item.used{opacity:.35;cursor:default}
+.match-show-btn{background:#1e293b;border:1px solid #475569;padding:7px 18px;border-radius:50px;font-weight:600;font-size:.8rem;cursor:pointer;color:#94a3b8;margin-top:4px}
+
+/* DRAWING */
+.draw-section{margin-bottom:16px}
+.draw-prompt{background:#0f172a;border:1.5px solid #334155;border-radius:14px;padding:14px 16px;margin-bottom:14px;font-size:.9rem;color:#94a3b8;line-height:1.6}
+.draw-prompt strong{color:#38bdf8}
+.draw-canvas-wrap{position:relative;margin-bottom:12px}
+.draw-canvas{background:#fff;border:2px solid #475569;border-radius:12px;cursor:crosshair;display:block;touch-action:none}
+.draw-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.draw-tool-btn{background:#1e293b;border:1px solid #475569;color:#94a3b8;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:.78rem;font-weight:600;transition:.15s}
+.draw-tool-btn:hover,.draw-tool-btn.active{background:#3b82f6;color:#fff;border-color:#3b82f6}
+.draw-color-swatch{width:28px;height:28px;border-radius:50%;border:2px solid #475569;cursor:pointer;transition:.15s}
+.draw-color-swatch.active{border-color:#38bdf8;transform:scale(1.15)}
+.draw-size-slider{width:80px;accent-color:#3b82f6}
+.draw-ref-btn{background:#1e293b;border:1px solid #7c3aed;color:#a78bfa;padding:7px 16px;border-radius:20px;cursor:pointer;font-size:.78rem;font-weight:600}
+.draw-ref-box{background:#0f172a;border:1.5px solid #4c1d95;border-radius:14px;padding:14px 16px;margin-top:10px;display:none}
+.draw-ref-box.visible{display:block}
+.draw-ref-box pre{font-family:'Courier New',monospace;font-size:.82rem;color:#c4b5fd;white-space:pre-wrap;line-height:1.7}
+.draw-ref-title{font-weight:700;color:#a78bfa;font-size:.8rem;margin-bottom:8px}
+
+/* STUDY EXPLAIN */
+.study-explain{background:#1e293b;border:1px solid #3b82f6;border-radius:12px;padding:12px 16px;margin-top:10px;font-size:.86rem;color:#cbd5e1;line-height:1.6}
+.study-explain strong{color:#38bdf8}
+
+/* ACTIONS */
+.actions{padding:12px 22px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;border-top:1px solid #334155;background:#0f172a}
+.nav-btns{display:flex;gap:10px}
+.btn{border:none;padding:10px 22px;border-radius:50px;font-weight:600;font-size:.83rem;cursor:pointer;transition:.15s}
+.btn-ghost{background:#1e293b;color:#94a3b8;border:1px solid #475569}
+.btn-ghost:hover{background:#334155;color:#e2e8f0}
+.btn-primary{background:linear-gradient(135deg,#3b82f6,#818cf8);color:#fff}
+.btn-primary:hover{opacity:.9}
+.btn-submit{background:linear-gradient(135deg,#059669,#0891b2);color:#fff}
+.btn-submit:hover{opacity:.9}
+.btn-clear{background:#1a1a2e;color:#a78bfa;font-size:.78rem;padding:8px 16px;border:1px solid #4c1d95}
+
+/* RESULT */
+.result-panel{padding:28px 22px;text-align:center;border-top:1px solid #334155;background:#0f172a}
+.result-pct{font-size:3rem;font-weight:800;background:linear-gradient(135deg,#38bdf8,#818cf8);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
+.result-msg{font-size:.95rem;color:#94a3b8;margin-bottom:16px}
+.result-breakdown{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.rb-card{background:#1e293b;border:1.5px solid #334155;border-radius:14px;padding:12px 20px;text-align:center;min-width:100px}
+.rb-num{font-size:1.5rem;font-weight:800;color:#38bdf8}
+.rb-label{font-size:.7rem;color:#64748b;font-weight:600;text-transform:uppercase;margin-top:2px}
+
+footer{text-align:center;padding:12px;font-size:.7rem;color:#334155;border-top:1px solid #1e293b;background:#0f172a}
+
+@media(max-width:600px){
+  .match-grid{grid-template-columns:1fr}
+  .home h1{font-size:1.5rem}
+  .q-text{font-size:1rem}
+  .home-cards{grid-template-columns:1fr}
+  .type-tabs{gap:4px}
+  .type-tab{font-size:.7rem;padding:5px 10px}
+  .draw-canvas{width:100%!important;height:220px!important}
+}
+</style>
 </head>
 <body>
-<div class="exam-container" id="examApp">
-  <div class="exam-header">
-    <div class="institution">AAU</div>
-    <div class="timer-area"><span>⏱️</span><span class="time-left-text">Time left</span><span id="timerDisplay">60:00</span></div>
+<div class="app" id="app">
+
+<!-- HOME -->
+<div id="homeScreen" class="home">
+  <div class="home-logo">🖥️</div>
+  <h1>Software Engineering</h1>
+  <div class="home-sub">Ch1 · Ch2 · Ch4 · Ch5 – Comprehensive Exam & Study Prep</div>
+
+  <div style="margin:18px 0 8px;font-weight:600;color:#94a3b8;font-size:.82rem;text-transform:uppercase;letter-spacing:.5px">Filter Chapters</div>
+  <div class="home-chapters">
+    <div class="ch-pill active" id="chip1" onclick="toggleCh(1,this)">Ch1 – Intro to SE</div>
+    <div class="ch-pill active" id="chip2" onclick="toggleCh(2,this)">Ch2 – Process Models</div>
+    <div class="ch-pill active" id="chip4" onclick="toggleCh(4,this)">Ch4 – Requirements</div>
+    <div class="ch-pill active" id="chip5" onclick="toggleCh(5,this)">Ch5 – Domain Modeling</div>
   </div>
-  <div class="question-progress">
-    <div class="question-badge">Question <span id="currentQNumber">1</span> of <span id="totalQCount">72</span></div>
-    <div id="statusMsg"></div>
-  </div>
-  <div class="question-body">
-    <div class="question-text" id="questionText">Loading exam...</div>
-    <div class="options-list" id="optionsContainer"></div>
-  </div>
-  <div class="action-buttons">
-    <button class="nav-btn" id="clearChoiceBtn">🗑️ Clear choice</button>
-    <div class="nav-buttons">
-      <button class="nav-btn" id="prevBtn">◀ Previous</button>
-      <button class="nav-btn nav-btn-primary" id="nextBtn">Next ▶</button>
+
+  <div class="home-cards">
+    <div class="home-card" onclick="launch('study')">
+      <div class="home-card-icon">📖</div>
+      <h2>Study Mode</h2>
+      <p>Instant feedback after every answer · Full explanations · No timer · All question types including drawing</p>
+    </div>
+    <div class="home-card" onclick="launch('exam')">
+      <div class="home-card-icon">📝</div>
+      <h2>Exam Mode</h2>
+      <p>60-minute countdown · Submit at the end · Full score breakdown · Simulates real exam conditions</p>
     </div>
   </div>
-  <div style="padding: 0 20px 20px 20px; text-align: right;"><button class="submit-btn" id="submitExamBtn">📝 Submit Exam</button></div>
-  <div id="resultPanel" class="result-area" style="display: none;"></div>
-  <footer><h3>© Developed By Laith Arabiat</h3></footer>
+  <button class="start-btn" onclick="launch(null)">Start ▶</button>
+  <div style="font-size:.72rem;color:#475569;margin-top:10px">Click a mode card above or this button to start with the last selected mode</div>
+</div>
+
+<!-- EXAM SCREEN -->
+<div id="examScreen" style="display:none">
+  <div class="exam-header">
+    <div class="logo-text">AAU · Software Engineering</div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <div class="mode-badge" id="modeBadge">Study Mode</div>
+      <div class="timer-box" id="timerBox" style="display:none">60:00</div>
+      <button class="home-btn" onclick="goHome()">⬅ Home</button>
+    </div>
+  </div>
+
+  <div class="type-tabs" id="typeTabs"></div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="q-info">
+    <div class="q-badge">Question <span id="qNum">1</span> of <span id="qTotal">1</span></div>
+    <div class="score-badge" id="scoreBadge" style="display:none">Score: 0</div>
+  </div>
+
+  <div class="q-body" id="qBody"></div>
+
+  <div class="actions">
+    <button class="btn btn-clear" onclick="clearAnswer()">🗑 Clear</button>
+    <div class="nav-btns">
+      <button class="btn btn-ghost" id="prevBtn" onclick="navigate(-1)">◀ Prev</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="navigate(1)">Next ▶</button>
+    </div>
+    <button class="btn btn-submit" id="submitBtn" style="display:none" onclick="submitExam()">📋 Submit Exam</button>
+  </div>
+
+  <div id="resultPanel" style="display:none" class="result-panel"></div>
+</div>
+
+<footer>© Software Engineering Exam App · Ch1–Ch5 · Developed for AAU Students</footer>
 </div>
 
 <script>
-// ==================== SAME 72 QUESTIONS AS STUDY MODE ====================
-const RAW_QUESTIONS = [
-  { text: "According to Pressman & Maxim, software consists of three interconnected components. Which of the following is NOT one of them?", options: ["Instructions (programs)", "Data structures", "Descriptive information", "User manuals only"], correctText: "User manuals only" },
-  { text: "What does PQCT stand for in software engineering (Kung)?", options: ["Productivity, Quality, Cost, Time to market", "Process, Quality, Code, Testing", "Planning, Query, Control, Traceability", "Performance, Quantity, Cost, Technology"], correctText: "Productivity, Quality, Cost, Time to market" },
-  { text: "True or False: The term 'software engineering' was first proposed at a NATO conference in 1968 to address the 'software crisis'.", options: ["True", "False"], correctText: "True" },
-  { text: "Fill in the blank: According to Pressman, the bedrock layer of software engineering is ______.", options: ["Quality focus", "Process", "Methods", "Tools"], correctText: "Quality focus" },
-  { text: "Which of the following best describes the difference between Computer Science and Software Engineering?", options: ["CS focuses on optimal solutions; SE focuses on good-enough solutions with cost/time constraints", "CS is about hardware; SE is about software only", "CS and SE are identical", "CS is only theoretical without any practical use"], correctText: "CS focuses on optimal solutions; SE focuses on good-enough solutions with cost/time constraints" },
-  { text: "Why does software 'deteriorate' even though it doesn't 'wear out'?", options: ["Because of physical wear on storage media", "Every change introduces potential new errors; cumulative changes cause quality degradation", "Software has a limited lifespan like hardware", "Because of dust and heat"], correctText: "Every change introduces potential new errors; cumulative changes cause quality degradation" },
-  { text: "Which of the following is an example of system software?", options: ["Word processor", "Excel spreadsheet", "Operating system compiler", "E-commerce website"], correctText: "Operating system compiler" },
-  { text: "List the four layers of software engineering according to Pressman (in order from bottom to top):", options: ["Quality focus, Process, Methods, Tools", "Process, Quality focus, Tools, Methods", "Methods, Tools, Quality focus, Process", "Tools, Methods, Process, Quality focus"], correctText: "Quality focus, Process, Methods, Tools" },
-  { text: "True or False: Legacy software is always easy to maintain and well-documented.", options: ["True", "False"], correctText: "False" },
-  { text: "Fill in the blank: The primary quality criterion measured by ______ is defects per KLOC.", options: ["Reliability", "Performance", "Usability", "Portability"], correctText: "Reliability" },
-  { text: "According to the ISO/IEC 9126 standard, which quality characteristic is generally accepted as the most critical?", options: ["Functionality", "Performance", "Reliability", "Usability"], correctText: "Reliability" },
-  { text: "Jalote's three strategies to improve productivity and quality are: Good processes & methods, Open source software, and ______.", options: ["Large Language Models (LLMs)", "Waterfall model", "Pair programming", "Six Sigma"], correctText: "Large Language Models (LLMs)" },
-  { text: "True or False: Delivered productivity is measured only by the lines of code written by the team, excluding libraries.", options: ["True", "False"], correctText: "False" },
-  { text: "The ACM/IEEE Code of Ethics has how many principles?", options: ["8", "6", "10", "12"], correctText: "8" },
-  { text: "Match the principle: 'Act consistently with the public interest' corresponds to which ACM/IEEE principle?", options: ["PUBLIC", "CLIENT AND EMPLOYER", "PRODUCT", "JUDGMENT"], correctText: "PUBLIC" },
-  { text: "A copyleft license (e.g., GPL) requires that:", options: ["Any derivative work must also be open source under the same license", "The software can be used in proprietary products freely", "Only attribution is required", "No distribution is allowed"], correctText: "Any derivative work must also be open source under the same license" },
-  { text: "Which open source license is the most permissive, allowing closed-source commercial derivatives with only a copyright notice?", options: ["GPL", "LGPL", "MIT", "Apache"], correctText: "MIT" },
-  { text: "Fill in the blank: In prompt engineering, providing one or a few examples to guide the LLM is called ______ prompting.", options: ["Zero-shot", "One-shot / Few-shot", "Role prompting", "Chain-of-thought"], correctText: "One-shot / Few-shot" },
-  { text: "List the five components of an effective LLM prompt according to Jalote:", options: ["Task Description, Input Data, Output Format, Additional Instructions, Evaluation Criteria", "Command, Context, Output, Style, Length", "Question, Examples, Answer, Format, Language", "Topic, Tone, Length, References, Deadline"], correctText: "Task Description, Input Data, Output Format, Additional Instructions, Evaluation Criteria" },
-  { text: "True or False: 'Chain-of-thought' prompting instructs the LLM to solve a problem step-by-step.", options: ["True", "False"], correctText: "True" },
-  { text: "What is the key distinction between a software process and a software methodology?", options: ["Process defines WHAT and WHEN; Methodology defines HOW", "Process defines HOW; Methodology defines WHAT", "They are the same", "Process is for management, methodology is for coding"], correctText: "Process defines WHAT and WHEN; Methodology defines HOW" },
-  { text: "According to Rittel, which type of problem has no definite formulation and the specification is the solution?", options: ["Tame problem", "Wicked problem", "Structured problem", "Algorithmic problem"], correctText: "Wicked problem" },
-  { text: "The Waterfall model is best suited when:", options: ["Requirements are stable and well-understood", "Requirements are constantly changing", "User feedback is needed early", "Risk management is critical"], correctText: "Requirements are stable and well-understood" },
-  { text: "True or False: In the Waterfall model, each phase must be completely finished before the next begins.", options: ["True", "False"], correctText: "True" },
-  { text: "Which model extends Waterfall by explicitly planning testing phases alongside development phases?", options: ["Spiral", "V-Model", "Incremental", "Prototyping"], correctText: "V-Model" },
-  { text: "Fill in the blank: In the V-Model, the left side represents development phases, and the right side represents ______ phases.", options: ["Testing", "Deployment", "Maintenance", "Design"], correctText: "Testing" },
-  { text: "Which model delivers working software in stages, with each increment passing through all phases and delivering a production-quality product?", options: ["Waterfall", "V-Model", "Incremental", "Spiral"], correctText: "Incremental" },
-  { text: "Which of the following is an advantage of the Incremental model?", options: ["Working software delivered early", "No need for upfront planning", "Avoids integration complexity", "Low total cost"], correctText: "Working software delivered early" },
-  { text: "A throwaway prototype is built to:", options: ["Evolve into the final system", "Validate requirements and then discard", "Serve as the final production code", "Replace documentation"], correctText: "Validate requirements and then discard" },
-  { text: "True or False: In the Evolutionary model, the prototype is thrown away after requirements are validated.", options: ["True", "False"], correctText: "False" },
-  { text: "Which model is uniquely characterized by its emphasis on risk management, proposed by Barry Boehm?", options: ["Waterfall", "V-Model", "Spiral", "Agile"], correctText: "Spiral" },
-  { text: "Fill in the blank: The Spiral model has four quadrants per loop: Determine objectives, Identify and resolve risks, Development and testing, and ______.", options: ["Plan next iteration", "Deployment", "Maintenance", "Documentation"], correctText: "Plan next iteration" },
-  { text: "List the four values of the Agile Manifesto (as a multiple choice):", options: ["Individuals and interactions over processes and tools, Working software over comprehensive documentation, Customer collaboration over contract negotiation, Responding to change over following a plan", "Processes over people, Documentation over working software, Contract over collaboration, Plan over change", "Tools over individuals, Comprehensive documentation over working software, Negotiation over collaboration, Following plan over responding to change", "Speed over quality, Features over stability, Marketing over engineering, Cost over value"], correctText: "Individuals and interactions over processes and tools, Working software over comprehensive documentation, Customer collaboration over contract negotiation, Responding to change over following a plan" },
-  { text: "In Scrum, who owns and prioritizes the Product Backlog?", options: ["Scrum Master", "Development Team", "Product Owner", "Project Manager"], correctText: "Product Owner" },
-  { text: "The typical length of a Sprint in Scrum is:", options: ["1 day", "1-4 weeks", "6 months", "1 year"], correctText: "1-4 weeks" },
-  { text: "Which XP practice requires two developers to share one keyboard, reviewing each other's code in real time?", options: ["Test-Driven Development", "Pair Programming", "Continuous Integration", "Refactoring"], correctText: "Pair Programming" },
-  { text: "Fill in the blank: The Red-Green-Refactor cycle is central to the XP practice of ______.", options: ["Test-Driven Development (TDD)", "Continuous Integration", "Small Releases", "Collective Ownership"], correctText: "Test-Driven Development (TDD)" },
-  { text: "Kanban's primary mechanism to prevent team overload and expose bottlenecks is:", options: ["Sprint planning", "Daily standups", "Work-in-Progress (WIP) limits", "Retrospectives"], correctText: "Work-in-Progress (WIP) limits" },
-  { text: "True or False: Kanban uses fixed-length iterations (sprints).", options: ["True", "False"], correctText: "False" },
-  { text: "Which software process model is risk-driven and most suitable for large, complex systems with evolving requirements?", options: ["Waterfall", "V-Model", "Spiral", "Kanban"], correctText: "Spiral" },
-  { text: "In the Incremental model, the first increment should deliver:", options: ["The most complex feature", "Core product addressing fundamental requirements", "Complete documentation", "The user interface only"], correctText: "Core product addressing fundamental requirements" },
-  { text: "True or False: The V-Model ensures that test cases are designed only after coding is complete.", options: ["True", "False"], correctText: "False" },
-  { text: "Which of the following is NOT a framework activity in Pressman's generic process model?", options: ["Communication", "Planning", "Modeling", "Risk analysis"], correctText: "Risk analysis" },
-  { text: "Sommerville's four fundamental software process activities are: Specification, Development, Validation, and ______.", options: ["Evolution", "Deployment", "Maintenance", "Testing"], correctText: "Evolution" },
-  { text: "Kung's three tracks of software development are: Development activities, QA activities, and ______ activities.", options: ["Project management", "Deployment", "Documentation", "Training"], correctText: "Project management" },
-  { text: "Which of the following is an essential software attribute according to Sommerville?", options: ["Acceptability", "Dependability & Security", "Maintainability", "All of the above"], correctText: "All of the above" },
-  { text: "The 'bathtub curve' describes failure rates for:", options: ["Software", "Hardware", "Both software and hardware", "Neither"], correctText: "Hardware" },
-  { text: "True or False: Open source libraries can improve delivered productivity because they have near-zero defect density when mature.", options: ["True", "False"], correctText: "True" },
-  { text: "Fill in the blank: The ______ principle of the ACM/IEEE code emphasizes lifelong learning and promoting ethical practice.", options: ["SELF", "PROFESSION", "JUDGMENT", "MANAGEMENT"], correctText: "SELF" },
-  { text: "Which Agile framework focuses primarily on engineering practices such as TDD, pair programming, and continuous integration?", options: ["Scrum", "Kanban", "Extreme Programming (XP)", "Lean"], correctText: "Extreme Programming (XP)" },
-  { text: "In Scrum, the event where the team demonstrates working software to stakeholders is called:", options: ["Sprint Planning", "Daily Scrum", "Sprint Review", "Sprint Retrospective"], correctText: "Sprint Review" },
-  { text: "True or False: A user story in Scrum must be written in the format: 'As a [user], I want [goal] so that [benefit].'", options: ["True", "False"], correctText: "True" },
-  { text: "Which process model explicitly includes a risk analysis quadrant in every cycle?", options: ["Waterfall", "V-Model", "Spiral", "Incremental"], correctText: "Spiral" },
-  { text: "Fill in the blank: The main artefact in Scrum that contains all requirements is the ______.", options: ["Product Backlog", "Sprint Backlog", "Burn-down chart", "Task board"], correctText: "Product Backlog" },
-  { text: "Which of the following is an advantage of the prototyping model?", options: ["Reduces requirements misunderstanding early", "Requires no user involvement", "Produces final production code directly", "Avoids any waste of effort"], correctText: "Reduces requirements misunderstanding early" },
-  { text: "True or False: In the Evolutionary model, the prototype must be built with operational functionality and robustness from the start.", options: ["True", "False"], correctText: "True" },
-  { text: "The Spiral model was proposed by:", options: ["Kent Beck", "Barry Boehm", "Winston Royce", "Ken Schwaber"], correctText: "Barry Boehm" },
-  { text: "List the five framework activities of the generic software process according to Pressman (in order):", options: ["Communication, Planning, Modeling, Construction, Deployment", "Planning, Analysis, Design, Implementation, Testing", "Requirements, Design, Coding, Testing, Maintenance", "Initiation, Execution, Monitoring, Closure, Support"], correctText: "Communication, Planning, Modeling, Construction, Deployment" },
-  { text: "Which of the following best describes a 'wicked problem'?", options: ["Easy to specify and solve", "Requires infinite steps and has no stopping rule", "Has finite steps and a correct solution", "Suitable for algorithmic approaches"], correctText: "Requires infinite steps and has no stopping rule" },
-  { text: "In the V-Model, the phase that corresponds to 'System Testing' on the right side is paired with which development phase on the left?", options: ["Requirements Analysis", "System Design", "Architectural Design", "Module Design"], correctText: "System Design" },
-  { text: "True or False: Prototyping is only useful for user interface design.", options: ["True", "False"], correctText: "False" },
-  { text: "Fill in the blank: The 'on-site customer' practice belongs to the ______ framework.", options: ["Scrum", "XP (Extreme Programming)", "Kanban", "Spiral"], correctText: "XP (Extreme Programming)" },
-  { text: "Which metric is used to measure software reliability in practice?", options: ["Defect density (defects per KLOC)", "Lines of code", "Number of users", "Response time"], correctText: "Defect density (defects per KLOC)" },
-  { text: "Which open source license is often called 'viral' because it requires derivative works to also be open source?", options: ["MIT", "Apache", "GPL", "BSD"], correctText: "GPL" },
-  { text: "True or False: Prompt chaining involves breaking a complex task into subtasks, where each prompt's output becomes input to the next.", options: ["True", "False"], correctText: "True" }
+// ═══════════════════════════════════════════════════════
+//  ALL QUESTIONS  (MCQ · FILL · ENUM · MATCH · DRAW)
+// ═══════════════════════════════════════════════════════
+const ALL_Q = [
+
+/* ════════════════════════════════
+   CHAPTER 1 – Intro to SE
+   ════════════════════════════════ */
+
+// MCQ Ch1
+{ch:1,type:'mcq',q:"According to Pressman & Maxim (2019), software consists of how many interconnected components?",
+opts:["Two","Three","Four","Five"],ans:"Three",
+explain:"Software = (1) Instructions (programs), (2) Data structures, (3) Descriptive information (documentation)."},
+
+{ch:1,type:'mcq',q:"What does the acronym PQCT stand for in software engineering?",
+opts:["Process, Quality, Cost, Time","Productivity, Quality, Cost, Time to market","Planning, Quantifying, Coding, Testing","Process, Quantity, Consistency, Traceability"],
+ans:"Productivity, Quality, Cost, Time to market",
+explain:"PQCT = Productivity, Quality, Cost (reduction), Time to market (reduction) – Kung's four SE goals."},
+
+{ch:1,type:'mcq',q:"The term 'software engineering' was first proposed at which conference and in which year?",
+opts:["IEEE conference, 1975","NATO conference, 1968","ACM conference, 1970","ISO conference, 1980"],
+ans:"NATO conference, 1968",
+explain:"The term was coined at a 1968 NATO conference to address the 'software crisis' — large projects were unreliable, over-budget, and late."},
+
+{ch:1,type:'mcq',q:"According to Pressman, software engineering is built on four layers. Which layer is considered the BEDROCK (foundation) of all other layers?",
+opts:["Tools","Methods","Process","Quality Focus"],
+ans:"Quality Focus",
+explain:"Quality Focus is the bedrock — it represents a culture of continuous process improvement that all other layers rest upon."},
+
+{ch:1,type:'mcq',q:"What is the correct ordering of Pressman's four SE layers from bottom to top?",
+opts:["Tools → Methods → Process → Quality Focus","Quality Focus → Process → Methods → Tools","Methods → Process → Tools → Quality Focus","Process → Quality Focus → Methods → Tools"],
+ans:"Quality Focus → Process → Methods → Tools",
+explain:"Bottom to top: Quality Focus (bedrock) → Process (glue) → Methods (how-to's) → Tools (automated support)."},
+
+{ch:1,type:'mcq',q:"Which of the following BEST describes the key difference between Computer Science and Software Engineering?",
+opts:["CS builds large systems; SE does theoretical research","CS focuses on algorithms/efficiency (optimal solution); SE focuses on PQCT (good-enough solution)","CS uses Java; SE uses Python","CS is newer than SE"],
+ans:"CS focuses on algorithms/efficiency (optimal solution); SE focuses on PQCT (good-enough solution)",
+explain:"CS seeks the optimal solution; SE seeks a good-enough solution that meets PQCT goals. CS is the theoretical foundation of SE, just as physics is the foundation for electrical engineering."},
+
+{ch:1,type:'mcq',q:"Software does NOT 'wear out' the way hardware does, but it DOES:",
+opts:["Rust","Deteriorate","Evaporate","Compress"],
+ans:"Deteriorate",
+explain:"Every change introduces potential new errors. Repeated modifications cause failure rates to spike, leading to gradual quality deterioration over time."},
+
+{ch:1,type:'mcq',q:"Which software application domain describes software that 'resides in products or devices' (e.g., microwave controls, automotive ABS)?",
+opts:["System Software","Application Software","Embedded Software","AI Software"],
+ans:"Embedded Software",
+explain:"Embedded software resides in hardware products/devices and controls physical systems (microwave, automotive fuel systems, ABS brakes)."},
+
+{ch:1,type:'mcq',q:"Legacy software is characterized by which of the following?",
+opts:["Recent development, well documented, easy to modify","Older systems, often poorly documented, costly to maintain, but still business-critical","Newly developed open-source systems","Embedded software in modern IoT devices"],
+ans:"Older systems, often poorly documented, costly to maintain, but still business-critical",
+explain:"Legacy software was developed decades ago, is often poorly documented with convoluted code, yet remains indispensable to the organizations that rely on it."},
+
+{ch:1,type:'mcq',q:"Sommerville defines software engineering as covering:",
+opts:["Only the coding phase","All aspects of software production from conception to maintenance","Only the design and testing phases","Only system software development"],
+ans:"All aspects of software production from conception to maintenance",
+explain:"Sommerville's key phrase is 'all aspects of software production' — from initial conception through operation and maintenance."},
+
+{ch:1,type:'mcq',q:"Which analogy correctly compares Computer Science to Software Engineering?",
+opts:["Chemistry is to biology as CS is to SE","Physics is to electrical engineering as CS is to SE","Mathematics is to statistics as CS is to SE","Biology is to medicine as CS is to SE"],
+ans:"Physics is to electrical engineering as CS is to SE",
+explain:"CS provides the theoretical foundation for SE, just as physics provides the foundation for electrical engineering."},
+
+{ch:1,type:'mcq',q:"Hardware follows a 'bathtub curve'. What does this describe?",
+opts:["Low initial failure, stable mid-life, then wear-out","High initial failure (infant mortality), stable mid-life, then wear-out","Constant failure rate throughout lifetime","Increasing failure rate from the start"],
+ans:"High initial failure (infant mortality), stable mid-life, then wear-out",
+explain:"Hardware bathtub curve: high initial failures (infant mortality), long stable period, then wear-out. Software has no physical wear but deteriorates from cumulative changes."},
+
+{ch:1,type:'mcq',q:"What are the FOUR fundamental activities that Sommerville defines as common to all software processes?",
+opts:["Plan, Design, Build, Test","Specification, Development, Validation, Evolution","Communication, Modeling, Construction, Deployment","Analysis, Design, Code, Deploy"],
+ans:"Specification, Development, Validation, Evolution",
+explain:"Sommerville's four: (1) Software Specification, (2) Software Development, (3) Software Validation, (4) Software Evolution."},
+
+{ch:1,type:'mcq',q:"In the context of software engineering, what is 'defect density'?",
+opts:["Number of developers per project","Number of defects per KLOC (thousand lines of code)","Time between software failures","Percentage of code covered by tests"],
+ans:"Number of defects per KLOC (thousand lines of code)",
+explain:"Defect density = defects per KLOC — the primary practical measure of software quality and reliability."},
+
+{ch:1,type:'mcq',q:"Which ISO/IEC 9126 quality attribute is described as 'provides failure-free service' and is considered the MOST critical?",
+opts:["Functionality","Usability","Reliability","Portability"],
+ans:"Reliability",
+explain:"Reliability (failure-free service) is generally accepted as the primary quality criterion in ISO/IEC 9126."},
+
+// FILL Ch1
+{ch:1,type:'fill',q:"The term 'software engineering' was proposed at the ______ conference in 1968.",
+ans:"NATO",explain:"The 1968 NATO conference introduced the term to address the 'software crisis.'"},
+
+{ch:1,type:'fill',q:"Kung's four SE goals are abbreviated as ______.",
+ans:"PQCT",explain:"PQCT = Productivity, Quality, Cost (reduction), Time to market (reduction)."},
+
+{ch:1,type:'fill',q:"In Pressman's layered technology model, the ______ layer is described as the 'glue' that binds the technology layers.",
+ans:"Process",explain:"The Process layer is the glue — it enables rational and timely software development."},
+
+{ch:1,type:'fill',q:"Software that helps use hardware more efficiently and forms the layer between hardware and users is called ______ software.",
+ans:"System",explain:"System software (OS, drivers, compilers) sits between hardware and application users."},
+
+{ch:1,type:'fill',q:"The gradual quality degradation of software due to cumulative changes is called software ______.",
+ans:"Deterioration",explain:"Software deterioration occurs because every change may introduce new errors, causing the minimum failure rate to rise over time."},
+
+{ch:1,type:'fill',q:"______ productivity is total software delivered (including reused/OSS code) per person-month of effort.",
+ans:"Delivered",explain:"Delivered productivity counts all code delivered (including libraries), not just code written by the team."},
+
+{ch:1,type:'fill',q:"According to Sommerville, the four properties all professional software should have are: acceptability, dependability/security, efficiency, and ______.",
+ans:"Maintainability",explain:"Sommerville's four essential software attributes: Acceptability, Dependability & Security, Efficiency, Maintainability."},
+
+{ch:1,type:'fill',q:"The primary measure of software quality used practically is ______ density.",
+ans:"Defect",explain:"Defect density (defects per KLOC) is the main practical quality measure."},
+
+// ENUMERATE Ch1
+{ch:1,type:'enum',q:"List the FOUR layers of software engineering according to Pressman (from bottom to top):",
+items:["1. Quality Focus – the bedrock; a culture of continuous process improvement","2. Process – the glue binding the technology layers; enables rational, timely software development","3. Methods – technical how-to's: communication, analysis, design, coding, testing","4. Tools – automated or semi-automated support for process and methods"],
+explain:"Quality Focus → Process → Methods → Tools (bottom to top). Each layer builds on the one beneath it."},
+
+{ch:1,type:'enum',q:"List the SEVEN software application domains identified by Pressman & Maxim:",
+items:["1. System Software – serves other programs (OS, compilers, drivers)","2. Application Software – stand-alone programs for specific business needs","3. Engineering/Scientific Software – number-crunching (astronomy, CAD, meteorology)","4. Embedded Software – resides in products/devices (microwave controls, automotive systems)","5. Product-Line Software – reusable components for many customers","6. Web/Mobile Apps – network-centric applications (e-commerce, cloud, mobile)","7. AI Software – heuristic problem-solving (robotics, ML, pattern recognition)"],
+explain:"The seven domains: System, Application, Engineering/Scientific, Embedded, Product-Line, Web/Mobile, and AI software."},
+
+{ch:1,type:'enum',q:"List the EIGHT ISO/IEC 9126 software quality characteristics:",
+items:["1. Functionality","2. Performance","3. Reliability (most critical)","4. Usability","5. Security","6. Maintainability","7. Compatibility","8. Portability"],
+explain:"ISO/IEC 9126 defines 8 quality attributes. Reliability is considered the most critical."},
+
+{ch:1,type:'enum',q:"List the FOUR Sommerville essential software attributes:",
+items:["1. Acceptability – understandable, usable, compatible with other systems","2. Dependability & Security – reliable, safe, resistant to malicious attack","3. Efficiency – no wasteful use of resources; responsive","4. Maintainability – written to evolve as requirements change"],
+explain:"Sommerville's four essential attributes: Acceptability, Dependability & Security, Efficiency, Maintainability."},
+
+{ch:1,type:'enum',q:"List the FOUR Sommerville challenges facing modern software engineering:",
+items:["1. Heterogeneity – systems must operate across distributed networks with different devices and legacy systems","2. Business and Social Change – rapidly evolving economies require faster new software delivery","3. Security and Trust – software is intertwined with daily life; malicious attacks are a critical threat","4. Scale – software spans from tiny embedded sensors to global Internet-scale systems"],
+explain:"Sommerville's four modern SE challenges: Heterogeneity, Business/Social Change, Security/Trust, and Scale."},
+
+// MATCH Ch1
+{ch:1,type:'match',q:"Match each Software Engineering term with its correct definition:",
+pairs:[
+  ["PQCT","Productivity, Quality, Cost, Time to market — the four SE goals (Kung)"],
+  ["Defect Density","Number of defects per thousand lines of code (KLOC) — primary quality measure"],
+  ["Delivered Productivity","Total software delivered (including OSS/reused code) per person-month"],
+  ["Legacy Software","Older, poorly documented systems that remain business-critical"],
+  ["Software Deterioration","Gradual quality degradation from cumulative changes over software lifetime"],
+  ["Quality Focus","The bedrock layer of Pressman's SE model — culture of continuous improvement"]
+],
+explain:"Core Ch1 vocabulary: PQCT, Defect Density, Delivered Productivity, Legacy Software, Deterioration, Quality Focus."},
+
+/* ════════════════════════════════
+   CHAPTER 2 – Software Process Models
+   ════════════════════════════════ */
+
+// MCQ Ch2
+{ch:2,type:'mcq',q:"What is the key difference between a Software PROCESS and a Software METHODOLOGY?",
+opts:["They are the same thing","A process defines WHAT and WHEN; a methodology defines HOW","A process defines HOW; a methodology defines WHAT","A methodology is used only in agile projects"],
+ans:"A process defines WHAT and WHEN; a methodology defines HOW",
+explain:"Software process defines phases, entrance/exit criteria (WHAT & WHEN). Methodology defines detailed steps and artifact representations (HOW). Both are needed."},
+
+{ch:2,type:'mcq',q:"Which theorist first studied the concept of 'wicked problems' that explains why Waterfall alone cannot solve most real-world software challenges?",
+opts:["Barry Boehm","Frederick Brooks","Horst Rittel (UC Berkeley)","Kent Beck"],
+ans:"Horst Rittel (UC Berkeley)",
+explain:"Horst Rittel at UC Berkeley developed the theory of wicked problems. Most real-world application software is a wicked problem."},
+
+{ch:2,type:'mcq',q:"In the Waterfall model, how must each phase be completed before moving to the next?",
+opts:["Partially — at least 50%","It can overlap with the next phase","Completely — 100% before the next begins","Phases run concurrently"],
+ans:"Completely — 100% before the next begins",
+explain:"Waterfall is strictly sequential — each phase must be COMPLETELY finished before the next begins. Flow is ONE-WAY downward."},
+
+{ch:2,type:'mcq',q:"Which model is described as an EXTENSION of the Waterfall model where test cases are designed during the corresponding development phase?",
+opts:["Incremental Model","Prototyping Model","V-Model","Spiral Model"],
+ans:"V-Model",
+explain:"The V-Model extends Waterfall into a V-shape: left side = development phases, right side = corresponding testing phases. Test cases are designed DURING development, not after coding."},
+
+{ch:2,type:'mcq',q:"In the V-Model, 'Verification' answers which question?",
+opts:["Are we building the right product?","Are we building the product right?","Is the product ready to ship?","Is the budget sufficient?"],
+ans:"Are we building the product right?",
+explain:"Verification = 'Are we building the product right?' (internal quality). Validation = 'Are we building the right product?' (meets user needs)."},
+
+{ch:2,type:'mcq',q:"In the Incremental Model, each increment is:",
+opts:["A throwaway prototype","A production-quality deliverable of working software","Only a paper design","A partial requirements specification"],
+ans:"A production-quality deliverable of working software",
+explain:"Each increment is production-quality, NOT a throwaway prototype. High-priority features are delivered first, and each increment builds upon the previous."},
+
+{ch:2,type:'mcq',q:"What are the TWO types of prototypes in the Prototyping Model?",
+opts:["Fast prototype and slow prototype","Throwaway prototype and Evolutionary prototype","Paper prototype and digital prototype","Static prototype and dynamic prototype"],
+ans:"Throwaway prototype and Evolutionary prototype",
+explain:"Throwaway: built quickly to validate, then discarded. Evolutionary: not discarded — grows with feedback into the final system."},
+
+{ch:2,type:'mcq',q:"Which process model was proposed by Barry Boehm and is unique for its emphasis on RISK MANAGEMENT?",
+opts:["Waterfall Model","V-Model","Incremental Model","Spiral Model"],
+ans:"Spiral Model",
+explain:"The Spiral Model (Barry Boehm) is unique for its emphasis on risk management — each cycle identifies and resolves risks before any development is committed."},
+
+{ch:2,type:'mcq',q:"In the Spiral Model, what happens in Quadrant 2 of each loop?",
+opts:["Define goals and constraints","Identify and resolve risks","Develop and test the deliverable","Plan the next iteration"],
+ans:"Identify and resolve risks",
+explain:"Spiral Quadrant 2: Identify and Resolve Risks — analyze risks, build prototypes or run experiments to reduce the riskiest unknowns before committing."},
+
+{ch:2,type:'mcq',q:"In Scrum, what is the PRIMARY artifact that contains an ordered list of user stories, epics, and requirements?",
+opts:["Sprint Backlog","Product Backlog","Daily Scrum board","Sprint Review document"],
+ans:"Product Backlog",
+explain:"The Product Backlog is the primary Scrum artifact — an ordered list of everything the product needs, owned and prioritized by the Product Owner."},
+
+{ch:2,type:'mcq',q:"In Scrum, who is responsible for OWNING and PRIORITIZING the Product Backlog?",
+opts:["Scrum Master","Development Team","Product Owner","Stakeholders"],
+ans:"Product Owner",
+explain:"The Product Owner owns the Product Backlog, prioritizes it, and acts as the voice of the customer."},
+
+{ch:2,type:'mcq',q:"What is the correct user story format used in Agile/Scrum?",
+opts:["'The system shall [do something]'","'As a [user type], I want [goal] so that [benefit]'","'Given [condition], When [action], Then [outcome]'","'Task [ID]: [description], Duration: [time]'"],
+ans:"'As a [user type], I want [goal] so that [benefit]'",
+explain:"Agile user story format: 'As a [type of user], I want [some goal] so that [some reason/benefit].'"},
+
+{ch:2,type:'mcq',q:"In eXtreme Programming (XP), what does TDD stand for and what is its key principle?",
+opts:["Total Driven Design — design everything before coding","Test-Driven Development — write the test BEFORE writing the code","Team-based Development — the whole team writes code together","Task-Defined Delivery — deliver tasks in defined order"],
+ans:"Test-Driven Development — write the test BEFORE writing the code",
+explain:"TDD = Test-Driven Development. Write a failing test first (Red), write minimum code to pass (Green), then refactor (Refactor). The test defines the requirement."},
+
+{ch:2,type:'mcq',q:"What is the KEY distinguishing feature of Kanban compared to Scrum?",
+opts:["Kanban uses user stories; Scrum does not","Kanban has no sprints/iterations — work flows continuously; Scrum uses fixed-length sprints","Kanban has daily standups; Scrum does not","Kanban requires a Product Owner; Scrum does not"],
+ans:"Kanban has no sprints/iterations — work flows continuously; Scrum uses fixed-length sprints",
+explain:"Kanban = continuous flow with WIP limits and no fixed sprint boundaries. Scrum = time-boxed sprints (1-4 weeks) with defined ceremonies."},
+
+{ch:2,type:'mcq',q:"Which process model is BEST suited for high-risk projects, large complex systems, and evolving requirements?",
+opts:["Waterfall Model","V-Model","Spiral Model","Kanban"],
+ans:"Spiral Model",
+explain:"Spiral Model is best for high-risk projects, large complex systems, and government/defense where risk management is critical at every cycle."},
+
+{ch:2,type:'mcq',q:"In XP (eXtreme Programming), what does 'Pair Programming' mean?",
+opts:["Two teams work on different features simultaneously","Two developers share one keyboard — one writes, the other reviews in real time","Two sprints are planned ahead at all times","Two Product Owners share the backlog"],
+ans:"Two developers share one keyboard — one writes, the other reviews in real time",
+explain:"Pair Programming: two developers at one keyboard. One writes code, the other reviews in real time. Catches bugs instantly and spreads team knowledge."},
+
+{ch:2,type:'mcq',q:"The Evolutionary Model is MOST suitable for which type of project?",
+opts:["Projects with fixed stable requirements","Exploratory projects where requirements are discovered through working with the system","Projects with strict regulatory requirements","Large embedded defense systems"],
+ans:"Exploratory projects where requirements are discovered through working with the system",
+explain:"Evolutionary model = exploratory projects (intelligent systems, research software, IoT) where exact requirements and algorithms emerge through system use."},
+
+{ch:2,type:'mcq',q:"In Kanban, WIP stands for:",
+opts:["Work In Process","Work Is Productive","Workflow Integration Plan","Work Iteration Period"],
+ans:"Work In Process",
+explain:"WIP = Work In Progress/Process. WIP Limits (LWIP) prevent overload, discourage multitasking, and expose bottlenecks."},
+
+// FILL Ch2
+{ch:2,type:'fill',q:"A software ______ defines phases, entrance/exit criteria (WHAT and WHEN), while a methodology defines HOW.",
+ans:"Process",explain:"Software Process = WHAT and WHEN. Software Methodology = HOW. Both are needed for successful development."},
+
+{ch:2,type:'fill',q:"The Waterfall model is sometimes called a ______ process because its strict sequence simplifies project planning and scheduling.",
+ans:"Predictable",explain:"Waterfall is a predictable process — strict one-way sequential phases make planning straightforward."},
+
+{ch:2,type:'fill',q:"In the V-Model, Verification answers '______ the product right?' and Validation answers 'Are we building the ______ product?'",
+ans:"Are we building / right",explain:"Verification = building it right (internal). Validation = building the right thing (meets user needs)."},
+
+{ch:2,type:'fill',q:"The Spiral Model was proposed by ______ and is unique for its emphasis on risk management.",
+ans:"Barry Boehm",explain:"Barry Boehm proposed the Spiral Model, which forces risk evaluation before any design or coding in each cycle."},
+
+{ch:2,type:'fill',q:"In Scrum, the time-boxed iteration (usually 1–4 weeks) is called a ______.",
+ans:"Sprint",explain:"A Sprint is the core time-box in Scrum — 1-4 weeks, ending with a potentially shippable software increment."},
+
+{ch:2,type:'fill',q:"XP's ______ practice involves merging all code to the main branch multiple times a day with automated tests on every merge.",
+ans:"Continuous Integration",explain:"Continuous Integration: merge often, automated tests run on every merge, prevents integration disasters."},
+
+{ch:2,type:'fill',q:"In Kanban, the ______ limit prevents team overload, discourages multitasking, and exposes bottlenecks.",
+ans:"WIP",explain:"WIP (Work In Progress) Limit — each Kanban board column has a max number of items allowed at once."},
+
+{ch:2,type:'fill',q:"The XP practice of writing tests BEFORE writing code is called ______ Development (TDD).",
+ans:"Test-Driven",explain:"TDD = Test-Driven Development: Red (failing test) → Green (minimum code) → Refactor cycle."},
+
+// ENUMERATE Ch2
+{ch:2,type:'enum',q:"List the FOUR quadrants of the Spiral Model (per loop):",
+items:["1. Determine Objectives – define goals, constraints, and alternatives for this cycle","2. Identify and Resolve Risks – analyze risks, build prototypes to reduce unknowns","3. Development and Testing – design, code, and test the deliverable for this cycle","4. Plan Next Iteration – review results with stakeholders, decide scope for next loop"],
+explain:"Each Spiral loop passes through all four quadrants. The spiral grows outward as the system becomes more complete."},
+
+{ch:2,type:'enum',q:"List the FIVE Scrum Events and their purpose:",
+items:["1. Sprint – the 1-4 week iteration; everything else happens inside it","2. Sprint Planning – team selects backlog items and commits to what they will deliver","3. Daily Scrum – 15-minute standup: yesterday/today/blockers","4. Sprint Review – demo working increment to stakeholders; gather feedback","5. Sprint Retrospective – team reflects on what went well and what to improve"],
+explain:"Scrum's five events: Sprint, Sprint Planning, Daily Scrum, Sprint Review, Sprint Retrospective."},
+
+{ch:2,type:'enum',q:"List the THREE Scrum Roles and their responsibilities:",
+items:["1. Product Owner – owns and prioritizes the Product Backlog; voice of the customer","2. Scrum Master – coaches team on Scrum; removes blockers (NOT a project manager)","3. Development Team – self-organizing group (3-9 people) that designs, builds, and tests the product each sprint"],
+explain:"Scrum roles: Product Owner, Scrum Master, Development Team."},
+
+{ch:2,type:'enum',q:"List the KEY XP (eXtreme Programming) engineering practices:",
+items:["1. Pair Programming – two developers share one keyboard","2. Test-Driven Development (TDD) – write test before code","3. Continuous Integration – merge to main branch multiple times daily","4. Small Releases – release working software frequently","5. Refactoring – continuously improve code structure without changing behavior","6. On-site Customer – real customer representative with the team full-time","7. Simple Design – build only what is needed right now","8. Collective Ownership – any developer can change any code at any time"],
+explain:"XP's eight core engineering practices all work together and reinforce each other."},
+
+{ch:2,type:'enum',q:"Compare Waterfall vs. Agile across at least FOUR key dimensions:",
+items:["1. Requirements completeness: Waterfall targets ~100% upfront; Agile targets ~80% (20/80 rule)","2. Response to change: Waterfall finds change expensive/disruptive; Agile welcomes change every iteration","3. Customer involvement: Waterfall involves customers mainly at start/end; Agile involves customers continuously","4. Working software: Waterfall delivers no working software until late; Agile delivers working software every sprint","5. Documentation: Waterfall produces comprehensive formal SRS; Agile uses user stories + lightweight backlog"],
+explain:"Waterfall = plan-driven, sequential, change-resistant. Agile = iterative, adaptive, customer-collaborative."},
+
+// MATCH Ch2
+{ch:2,type:'match',q:"Match each Process Model with its KEY characteristic:",
+pairs:[
+  ["Waterfall","Strictly sequential; each phase 100% complete before next begins"],
+  ["V-Model","Pairs each development phase with a corresponding testing phase"],
+  ["Incremental","Divides system into increments; each delivers production-quality working software"],
+  ["Spiral","Risk-driven; four quadrants per loop; proposed by Barry Boehm"],
+  ["Scrum","Agile framework using time-boxed sprints with Product Backlog and three roles"],
+  ["Kanban","Continuous flow; WIP limits; no fixed sprints; visualizes work on a board"]
+],
+explain:"Key process models: Waterfall, V-Model, Incremental, Spiral, Scrum, Kanban."},
+
+// DRAW Ch2
+{ch:2,type:'draw',
+q:"Draw the V-Model diagram showing the LEFT side (development phases) and RIGHT side (testing phases), with Coding at the bottom of the V.",
+hint:`V-Model Structure:
+LEFT SIDE (Development) ←→ RIGHT SIDE (Testing)
+─────────────────────────────────────────────────
+Requirements Analysis    ←→   Acceptance Testing
+System Design            ←→   System Testing
+Architectural Design     ←→   Integration Testing
+Module Design            ←→   Unit Testing
+              ↘          ↙
+            CODING
+            (bottom of V)
+
+Key: Test cases designed DURING development, not after coding.
+Verification: "Building it right?" | Validation: "Building the right thing?"`,
+explain:"The V-Model bends Waterfall into a V-shape. Left = development down to coding. Right = testing ascending back up. Each level pairs development with its test type."},
+
+{ch:2,type:'draw',
+q:"Draw the Scrum Framework showing: Product Backlog → Sprint Backlog → Sprint (with Daily Scrum) → Working Software Increment → Sprint Review → Retrospective.",
+hint:`Scrum Framework:
+┌─────────────────┐    ┌──────────────┐    ┌─────────────────────┐
+│  PRODUCT        │    │  SPRINT      │    │  SPRINT             │
+│  BACKLOG        │───▶│  BACKLOG     │    │  (1-4 Weeks)        │
+│  (User Stories) │    │  (Selected   │───▶│  ┌────────────────┐ │
+│  ordered list   │    │   Items)     │    │  │  Daily Scrum   │ │
+└─────────────────┘    └──────────────┘    │  │  (15 min)      │ │
+                                           │  └────────────────┘ │
+                                           └──────────┬──────────┘
+                                                      │
+                       ┌──────────────────────────────▼──┐
+                       │  WORKING SOFTWARE INCREMENT      │
+                       │  (Potentially Shippable Product) │
+                       └──────────┬──────────────────────┘
+                                  │
+                    ┌─────────────▼──────────┐
+                    │  Sprint Review +        │
+                    │  Retrospective          │
+                    │  (Feedback → Backlog)   │
+                    └─────────────────────────┘`,
+explain:"Scrum flow: Product Backlog → Sprint Planning → Sprint (with Daily Scrum) → Working Increment → Sprint Review + Retrospective → repeat."},
+
+/* ════════════════════════════════
+   CHAPTER 4 – Software Requirements Elicitation
+   ════════════════════════════════ */
+
+// MCQ Ch4
+{ch:4,type:'mcq',q:"According to Frederick Brooks (Turing Award 1999), 'The hardest single part of building a software system is:'",
+opts:["Writing efficient code","Testing the system thoroughly","Deciding precisely what to build","Managing the development team"],
+ans:"Deciding precisely what to build",
+explain:"Brooks: 'The hardest single part of building a software system is deciding precisely what to build. No other part so cripples the resulting system if done wrong.'"},
+
+{ch:4,type:'mcq',q:"What is the correct definition of a SOFTWARE REQUIREMENT?",
+opts:["A restriction on the solution space","A capability that the system must deliver","A technical design decision","A project management milestone"],
+ans:"A capability that the system must deliver",
+explain:"Software requirements are CAPABILITIES that the system must deliver. Constraints are restrictions on the solution space (e.g., 'must use Java')."},
+
+{ch:4,type:'mcq',q:"'The system must be implemented in Java only' is an example of a:",
+opts:["Functional requirement","Nonfunctional requirement – Performance","Nonfunctional requirement – Security","Constraint"],
+ans:"Constraint",
+explain:"This restricts the solution space (implementation technology) — it is a CONSTRAINT, not a requirement. Constraints narrow implementation alternatives."},
+
+{ch:4,type:'mcq',q:"'Express packages are constrained to 150 lbs in weight' is an example of a:",
+opts:["Constraint","Functional requirement","Nonfunctional requirement – Performance","Design decision"],
+ans:"Functional requirement",
+explain:"Despite using the word 'constrained,' this describes WHAT the system must reject — it defines system behavior, making it a FUNCTIONAL REQUIREMENT."},
+
+{ch:4,type:'mcq',q:"'The system shall process 100,000 transactions per day' is an example of which type of nonfunctional requirement?",
+opts:["Quality","Safety","Security","Performance"],
+ans:"Performance",
+explain:"Performance requirements define throughput, response time, and resource utilization — e.g., 100,000 transactions per day."},
+
+{ch:4,type:'mcq',q:"'The system shall save transaction histories when transactions fail' is an example of which type of nonfunctional requirement?",
+opts:["Security","Performance","Safety","Interface"],
+ans:"Safety",
+explain:"Safety requirements prevent dangerous states from unintended operations — e.g., saving transaction history on failure to prevent data loss."},
+
+{ch:4,type:'mcq',q:"Which of the 7 challenges of requirements elicitation is described as: 'users do not understand what software can do'?",
+opts:["Insufficient domain knowledge","Users cannot articulate their needs","Communication barriers","Requirements change continuously"],
+ans:"Users cannot articulate their needs",
+explain:"Challenge #2: Users cannot articulate their needs because most users don't understand what software can do. Recommended response: active listening, prototypes, joint modeling sessions."},
+
+{ch:4,type:'mcq',q:"What is the recommended response to the challenge of 'Communication Barriers' in requirements elicitation?",
+opts:["Hire domain experts only","Create a shared glossary of domain terms","Use only formal mathematical specifications","Avoid user interviews"],
+ans:"Create a shared glossary of domain terms",
+explain:"Communication barriers arise because the same words mean different things in different professional domains. Solution: create a shared glossary."},
+
+{ch:4,type:'mcq',q:"In the 5-step elicitation process, which step involves constructing UML diagrams to understand the existing application?",
+opts:["Step 1 – Collect Information","Step 2 – Construct Analysis Models","Step 3 – Derive Requirements","Step 4 – Conduct Feasibility Study"],
+ans:"Step 2 – Construct Analysis Models",
+explain:"Step 2: Construct Analysis Models using UML (class, use case, sequence, state, activity diagrams) to visualize the existing system and derive requirements."},
+
+{ch:4,type:'mcq',q:"Traditional (plan-driven) development spends what percentage of total project effort on requirements elicitation?",
+opts:["1–2%","5–10%","15–20%","40–50%"],
+ans:"15–20%",
+explain:"Traditional development: 15–20% of total effort (2+ months for a 1-year project), targeting ~100% completeness. Agile: 1–2 weeks, targeting ~80% (20/80 rule)."},
+
+{ch:4,type:'mcq',q:"Which information-gathering technique involves 'observing from WITHIN the organization; thinking like a user (inside out not outside in)?'",
+opts:["Customer Presentation","Literature Survey","User Interviewing","Ethnography"],
+ans:"Ethnography",
+explain:"Ethnography: understand the real-world work environment by observing from within the organization. 'Inside out' not 'outside in' approach."},
+
+{ch:4,type:'mcq',q:"A well-written requirement must begin with which phrase?",
+opts:["'The developer should...'","'It is desired that...'","'The system shall...' or 'Users shall be able to...'","'The project will...'"],
+ans:"'The system shall...' or 'Users shall be able to...'",
+explain:"Well-written requirements begin with 'The system shall...' or 'Users shall be able to...' — specific, testable, and implementation-independent."},
+
+{ch:4,type:'mcq',q:"In the SRS (Software Requirements Specification), requirements are documented because the SRS is:",
+opts:["A developer's internal reference","A legally binding contract","An optional project document","A marketing document"],
+ans:"A legally binding contract",
+explain:"The SRS often forms part of a legally binding contract — this is why proper documentation and thorough review are critical. Failure to meet specified requirements has legal consequences."},
+
+{ch:4,type:'mcq',q:"Which three types of requirements review exist?",
+opts:["Unit review, Integration review, Acceptance review","Technical review, Expert review, Customer review","Peer review, Manager review, Client review","Functional review, Technical review, Business review"],
+ans:"Technical review, Expert review, Customer review",
+explain:"Three review types: (1) Technical Review – by development team for completeness/consistency, (2) Expert Review – by domain specialists, (3) Customer Review – by client/end users."},
+
+{ch:4,type:'mcq',q:"Which IBM tool supports requirements traceability, change impact analysis, and sends automatic email notifications when requirements are modified?",
+opts:["IBM Rational DOORS","IBM Rational RequisitePro","IBM Rational Rose","IBM Rational ClearCase"],
+ans:"IBM Rational RequisitePro",
+explain:"IBM Rational RequisitePro: web-based, supports traceability from business needs to technical requirements, provides change impact analysis and automatic email notification."},
+
+{ch:4,type:'mcq',q:"The Agile 20/80 principle states:",
+opts:["Spend 80% of effort on 20% of requirements","Spend 20% of the effort to capture 80% of the requirements","20 developers produce 80% of the code","80% of bugs occur in 20% of modules"],
+ans:"Spend 20% of the effort to capture 80% of the requirements",
+explain:"Agile 20/80 rule: Spend 20% of effort to capture 80% of requirements. Focus on highest-value requirements first. You don't need 100% accuracy upfront."},
+
+// FILL Ch4
+{ch:4,type:'fill',q:"Software requirements are ______ that the system must deliver.",
+ans:"Capabilities",explain:"Definition: Software requirements are CAPABILITIES that the system must deliver (Definition 4.1)."},
+
+{ch:4,type:'fill',q:"A ______ is a restriction on the solution space, such as 'the system must be implemented in Java only.'",
+ans:"Constraint",explain:"Constraints restrict implementation alternatives (HOW the system is built), not WHAT it does."},
+
+{ch:4,type:'fill',q:"'The system shall be available 99% of the time' is an example of a nonfunctional requirement of type ______.",
+ans:"Quality",explain:"Quality requirements address reliability and availability — e.g., 99% uptime is a Quality NFR."},
+
+{ch:4,type:'fill',q:"The document that formally specifies all software requirements is called the Software Requirements ______ (SRS).",
+ans:"Specification",explain:"SRS = Software Requirements Specification — the legally binding document containing all requirements and constraints."},
+
+{ch:4,type:'fill',q:"The information-gathering technique that captures user needs in agile projects using the format 'As a [role], I need [capability] so that [goal]' is called ______ Stories.",
+ans:"User",explain:"User Stories are the agile way of capturing requirements: 'As a [role], I want [goal] so that [benefit].'"},
+
+{ch:4,type:'fill',q:"In requirements management, tracking dependencies between requirements and all development artifacts is called ______ Management.",
+ans:"Traceability",explain:"Traceability Management tracks dependencies between requirements, business needs, analysis models, design, code, and test cases."},
+
+{ch:4,type:'fill',q:"Frederick Brooks stated: 'No other part of the work so ______ the resulting system if done wrong.'",
+ans:"Cripples",explain:"Brooks: 'No other part so cripples the resulting system if done wrong' — emphasizing the critical importance of requirements."},
+
+{ch:4,type:'fill',q:"The ______ technique for requirements gathering involves having the team observe the work from within the organization rather than from outside.",
+ans:"Ethnography",explain:"Ethnography = inside-out observation. Analyst embeds in the organization and thinks like a user."},
+
+// ENUMERATE Ch4
+{ch:4,type:'enum',q:"List the SEVEN challenges of requirements elicitation and a recommended response for each:",
+items:["1. Insufficient domain knowledge → Active customer collaboration; agile methods","2. Users cannot articulate their needs → Active listening, prototypes, joint modeling","3. Communication barriers → Create a shared glossary of domain terms","4. Requirements cannot be definitively specified → Use prototypes to clarify vague requirements","5. Underestimation of effort → Educate stakeholders using real failure case studies","6. Nonfunctional requirements overlooked → Mandatory checklist covering all NFR categories","7. Requirements change continuously → Iterative approach with structured change management"],
+explain:"The 7 challenges make requirements elicitation the hardest phase of SE. Each has a practical countermeasure."},
+
+{ch:4,type:'enum',q:"List the 5-STEP requirements elicitation process:",
+items:["Step 1: Collect Information – understand the application, environment, business processes, stakeholder needs","Step 2: Construct Analysis Models – visualize existing system using UML to identify gaps and derive requirements","Step 3: Derive Requirements & Constraints – formalize needs into testable, numbered, prioritized statements","Step 4: Conduct Feasibility Study – verify system can be built within technical, budget, and schedule constraints","Step 5: Review the Specification – validate SRS for correctness, completeness, and consistency with all stakeholders"],
+explain:"The 5 elicitation steps: Collect → Model → Derive → Feasibility → Review."},
+
+{ch:4,type:'enum',q:"List the SIX information-gathering techniques and when each is best used:",
+items:["1. Customer Presentation – starting a new project; quick business overview (max 2 hours)","2. Literature Survey – deep domain knowledge is needed; study similar projects and industry standards","3. Stakeholder Survey – reaching many stakeholders efficiently; keep questionnaire brief","4. User Interviewing – deep exploration of specific issues; prepare questions; max 1 hour","5. Ethnography – understanding the real-world work environment; observe from within","6. User Stories – capturing user needs in agile projects; format: As a [role], I want [goal]"],
+explain:"Six techniques: Presentation, Literature Survey, Stakeholder Survey, User Interview, Ethnography, User Stories."},
+
+{ch:4,type:'enum',q:"List the FIVE types of nonfunctional requirements with an example for each:",
+items:["1. Performance – throughput, response time (e.g., process 100,000 transactions/day)","2. Quality – reliability, availability (e.g., system available 99% of the time)","3. Safety – preventing dangerous states (e.g., save transaction history when failure occurs)","4. Security – protecting data from malicious attacks (e.g., encrypt all files over internet)","5. Interface – look-and-feel, user interaction (e.g., UI supports English and Arabic with RTL)"],
+explain:"NFR subcategories: Performance, Quality, Safety, Security, Interface."},
+
+{ch:4,type:'enum',q:"List the THREE types of requirements reviews, who conducts each, and their focus:",
+items:["1. Technical Review – conducted by the development team; checks completeness, consistency, clarity, non-redundancy, traceability, feasibility","2. Expert Review – conducted by domain specialists (medical, legal, financial); checks accuracy of domain laws, regulations, correct jargon","3. Customer Review – conducted by client representatives and end users; checks functional completeness, UI requirements, NFR, operational constraints"],
+explain:"Three reviews ensure the SRS is complete, domain-accurate, and meets customer needs before it becomes a binding contract."},
+
+// MATCH Ch4
+{ch:4,type:'match',q:"Match each requirements term with its correct description:",
+pairs:[
+  ["Functional Requirement","An information-processing capability the system must possess (WHAT it does)"],
+  ["Constraint","A restriction on the solution space (e.g., must use Oracle Database)"],
+  ["Ethnography","Information-gathering by observing from within the organization (inside-out)"],
+  ["SRS","The legally binding document containing all software requirements and constraints"],
+  ["Traceability Management","Tracking dependencies between requirements, design, code, and test cases"],
+  ["20/80 Rule","Spend 20% of effort to capture 80% of requirements (Agile principle)"]
+],
+explain:"Core Ch4 vocabulary: Functional Requirement, Constraint, Ethnography, SRS, Traceability Management, 20/80 Rule."},
+
+/* ════════════════════════════════
+   CHAPTER 5 – Domain Modeling & UML
+   ════════════════════════════════ */
+
+// MCQ Ch5
+{ch:5,type:'mcq',q:"Domain Modeling is also called:",
+opts:["Use Case Modeling","Conceptual Model","Data Flow Diagram","Entity-Relationship Model"],
+ans:"Conceptual Model",
+explain:"Domain Modeling is also called a Conceptual Model — it identifies important concepts, their attributes, and relationships."},
+
+{ch:5,type:'mcq',q:"What does UML stand for?",
+opts:["Universal Modeling Language","Unified Modeling Language","Unified Method Language","Universal Method Logic"],
+ans:"Unified Modeling Language",
+explain:"UML = Unified Modeling Language — a standardized set of diagrams for specifying, visualizing, constructing, and documenting software systems."},
+
+{ch:5,type:'mcq',q:"A UML Class Diagram is classified as which type of UML diagram?",
+opts:["Behavior Diagram","Interaction Diagram","Structure Diagram","Activity Diagram"],
+ans:"Structure Diagram",
+explain:"Class Diagram is a Structure Diagram (structural diagrams depict what the system contains). Behavior diagrams show what the system does."},
+
+{ch:5,type:'mcq',q:"What is a CLASS in object-oriented modeling?",
+opts:["An instance of an object","A scalar type like integer or string","A type — an intentional definition of a concept that encapsulates attributes and operations","A relationship between two objects"],
+ans:"A type — an intentional definition of a concept that encapsulates attributes and operations",
+explain:"A class is a type/intentional definition. An object is an INSTANCE of a class. Example: Student (class); Ahmed is a Student (object)."},
+
+{ch:5,type:'mcq',q:"The attributes and operations of a class are collectively called:",
+opts:["Properties","Instances","Features","Relations"],
+ans:"Features",
+explain:"The attributes AND operations of a class are called FEATURES of the class."},
+
+{ch:5,type:'mcq',q:"Which UML relationship represents an IS-A relationship (generalization/specialization)?",
+opts:["Association","Aggregation","Inheritance","Composition"],
+ans:"Inheritance",
+explain:"Inheritance (IS-A): one class is a generalization or specialization of another. Example: Car IS-A MotorVehicle. Shown with a hollow triangle arrowhead."},
+
+{ch:5,type:'mcq',q:"Which UML relationship represents a PART-OF relationship (binary relation between two classes)?",
+opts:["Association","Aggregation","Inheritance","Dependency"],
+ans:"Aggregation",
+explain:"Aggregation (PART-OF): objects of one class are parts of the other class. Example: Processor, MainMemory, Monitor are PARTS OF a Computer."},
+
+{ch:5,type:'mcq',q:"An Association class is:",
+opts:["A class that inherits from another class","A special class that defines properties and behaviors for the instance of an association","A class with no attributes","A class that acts as an external entity"],
+ans:"A special class that defines properties and behaviors for the instance of an association",
+explain:"An association class defines properties/behaviors for the instance of an association — e.g., CourseEnrollment with 'grade' describes the association between CourseSection and Student."},
+
+{ch:5,type:'mcq',q:"What does multiplicity '1..*' mean in a UML association?",
+opts:["Zero or one (optional)","Zero or more (optional)","One and only one (mandatory)","One or more (mandatory)"],
+ans:"One or more (mandatory)",
+explain:"1..* = one or more (mandatory). 0..* = zero or more (optional). 1 or 1..1 = one and only one. 0..1 = zero or one."},
+
+{ch:5,type:'mcq',q:"What does multiplicity '0..1' mean in a UML association?",
+opts:["Zero or more","One or more","Zero or one (optional)","One and only one"],
+ans:"Zero or one (optional)",
+explain:"0..1 = zero or one — the association is optional (the object may or may not participate)."},
+
+{ch:5,type:'mcq',q:"In domain modeling, 'Ahmed is a Student' is an example of a(n):",
+opts:["Class","Object","Attribute","Association"],
+ans:"Object",
+explain:"'Ahmed is a Student' — Ahmed is an OBJECT (an instance) of the class Student."},
+
+{ch:5,type:'mcq',q:"Which of the following is an ATTRIBUTE (not an object) in domain modeling?",
+opts:["Employee","Customer","Account balance (scalar value)","Doctor"],
+ans:"Account balance (scalar value)",
+explain:"Attributes are SCALAR types (integer, string, double). Objects have independent existence in the application and are NOT scalar types."},
+
+{ch:5,type:'mcq',q:"How many steps are there in the Domain Modeling process?",
+opts:["Three","Four","Five","Seven"],
+ans:"Five",
+explain:"The five domain modeling steps: (1) Collecting information, (2) Brainstorming, (3) Classifying results, (4) Visualizing with UML class diagram, (5) Reviewing the model."},
+
+{ch:5,type:'mcq',q:"Which step of domain modeling involves meeting to identify domain-specific concepts using categories of 'things'?",
+opts:["Step 1 – Collecting information","Step 2 – Brainstorming","Step 3 – Classifying results","Step 4 – Visualizing"],
+ans:"Step 2 – Brainstorming",
+explain:"Step 2 (Brainstorming): Team members meet to identify domain-relevant concepts using types of things (Tangible, Roles, Organizational Units, Devices, Sites/Locations, Incidents/Events)."},
+
+{ch:5,type:'mcq',q:"The conceptualization process in domain modeling involves four activities. Which of the following is NOT one of them?",
+opts:["Observation","Classification","Abstraction","Implementation"],
+ans:"Implementation",
+explain:"The four conceptualization activities: Observation (identify real-world elements), Classification (group similar concepts), Abstraction (focus on important details), Generalization (identify common patterns). Implementation is NOT one of them."},
+
+// FILL Ch5
+{ch:5,type:'fill',q:"Domain Modeling identifies: important concepts (things), their ______ (attributes), and ______ between them.",
+ans:"Properties and Relationships",explain:"Domain modeling identifies concepts, their PROPERTIES (attributes), and RELATIONSHIPS between them."},
+
+{ch:5,type:'fill',q:"UML stands for ______ Modeling Language.",
+ans:"Unified",explain:"UML = Unified Modeling Language — standardized language for specifying and documenting software systems."},
+
+{ch:5,type:'fill',q:"A class is a type; an object is an ______ of a class.",
+ans:"Instance",explain:"Object = instance of a class. Example: Student is a class; Ahmed is an object (instance) of Student."},
+
+{ch:5,type:'fill',q:"The attributes and operations of a class are called ______ of the class.",
+ans:"Features",explain:"Features = attributes + operations. Both together describe what a class HAS and what it CAN DO."},
+
+{ch:5,type:'fill',q:"Inheritance represents an ______ relationship between two classes.",
+ans:"IS-A",explain:"Inheritance = IS-A relationship. Subclass IS-A superclass. Example: Car IS-A MotorVehicle."},
+
+{ch:5,type:'fill',q:"Aggregation represents a ______ relationship between two classes.",
+ans:"PART-OF",explain:"Aggregation = PART-OF relationship. Example: Processor PART-OF Computer."},
+
+{ch:5,type:'fill',q:"An ______ class defines properties and behaviors for the instance of an association.",
+ans:"Association",explain:"Association class: e.g., CourseEnrollment (with 'grade') describes the CourseSection-Student association instance."},
+
+{ch:5,type:'fill',q:"The multiplicity '0..*' means ______ or ______.",
+ans:"Zero or more",explain:"0..* = zero or more (optional, no upper limit). Also written as * alone."},
+
+// ENUMERATE Ch5
+{ch:5,type:'enum',q:"List the FIVE steps of Domain Modeling:",
+items:["Step 1: Collecting application domain information – gather all relevant information/documentation about the application","Step 2: Brainstorming – team meets to identify domain-specific concepts using categories of things","Step 3: Classifying brainstorming results – classify as classes, attributes, inheritance, aggregation, association, association classes","Step 4: Visualizing the domain model – create a UML class diagram showing integrated view of classes, attributes, and relationships","Step 5: Reviewing the domain model – identify errors, abnormalities; revise as needed"],
+explain:"5 steps: Collect Info → Brainstorm → Classify → Visualize (UML) → Review."},
+
+{ch:5,type:'enum',q:"List SIX benefits of Domain Modeling:",
+items:["1. Helps understand the system clearly","2. Improves communication within the team","3. Improves requirement understanding","4. Helps communicate with customers/users","5. Provides a base for design and implementation","6. Helps new team members learn the system"],
+explain:"Six benefits of domain modeling — all center around shared understanding and communication."},
+
+{ch:5,type:'enum',q:"List the FOUR conceptualization activities in Domain Modeling:",
+items:["1. Observation – identify real-world elements in the application domain","2. Classification – group similar concepts together","3. Abstraction – focus on important details, ignore irrelevant ones","4. Generalization – identify common patterns across concepts"],
+explain:"Conceptualization: Observation → Classification → Abstraction → Generalization."},
+
+{ch:5,type:'enum',q:"List the THREE special relationship types in a UML Class Diagram:",
+items:["1. Association – a relation between one or more classes; objects of one class may relate to objects of the other (may have multiplicity and roles)","2. Aggregation (PART-OF) – a binary relation where objects of one class are PARTS OF the other class (e.g., Processor PART-OF Computer)","3. Inheritance (IS-A) – a binary relation where one class is a generalization/specialization of the other (e.g., Car IS-A MotorVehicle)"],
+explain:"Three UML relationships: Association, Aggregation (part-of), Inheritance (is-a)."},
+
+// MATCH Ch5
+{ch:5,type:'match',q:"Match each UML/Domain Modeling term with its correct description:",
+pairs:[
+  ["Class","A type — an intentional definition of a concept that encapsulates attributes and operations"],
+  ["Object","An instance of a class (e.g., 'Ahmed is a Student')"],
+  ["Inheritance","IS-A relationship — generalization/specialization between two classes"],
+  ["Aggregation","PART-OF relationship — objects of one class are parts of the other"],
+  ["Association Class","A special class defining properties/behaviors for the instance of an association"],
+  ["Multiplicity","Specifies how many instances of one class relate to instances of another (e.g., 1..*, 0..1)"]
+],
+explain:"Core Ch5 UML vocabulary: Class, Object, Inheritance, Aggregation, Association Class, Multiplicity."},
+
+// DRAW Ch5
+{ch:5,type:'draw',
+q:"Draw a simple UML Class Diagram showing: Customer (with attributes: custNumber {key}, fullName, balance), Account (with attributes: accountID {key}, accountType), and Branch (with attributes: branchID {key}, branchLocation). Show associations: Customer 1 — 1..* Account, Account 0..* — 1 Branch.",
+hint:`UML Class Diagram:
+┌──────────────────┐      1      1..*  ┌──────────────────┐
+│    Customer      │─────────────────▶│    Account       │
+├──────────────────┤                  ├──────────────────┤
+│ custNumber {key} │                  │ accountID {key}  │
+│ fullName         │                  │ accountType      │
+│ balance          │                  │ dateOpened       │
+└──────────────────┘                  └────────┬─────────┘
+                                               │ 0..*
+                                               │
+                                               │ 1
+                                      ┌────────▼─────────┐
+                                      │     Branch       │
+                                      ├──────────────────┤
+                                      │ branchID {key}   │
+                                      │ branchLocation   │
+                                      │ managerName      │
+                                      └──────────────────┘
+
+Notation:
+• Rectangle = Class
+• Top section = Class Name
+• Middle = Attributes
+• {key} = unique identifier
+• Lines with numbers = Association + Multiplicity`,
+explain:"UML Class Diagram: Classes shown as rectangles with name, attributes, operations. Associations shown as lines with multiplicity (1, 1..*, 0..*, 0..1)."},
+
+{ch:5,type:'draw',
+q:"Draw a UML Inheritance diagram showing: MotorVehicle as the superclass, with subclasses Truck, Car, and Tractor. Then show Car has further subclasses: SportsCar, Sedan, SportUtility.",
+hint:`UML Inheritance (IS-A) Diagram:
+              ┌─────────────────┐
+              │  MotorVehicle   │
+              └────────┬────────┘
+                       │ (IS-A — hollow triangle arrow pointing UP to superclass)
+          ┌────────────┼────────────┐
+          ▽            ▽            ▽
+    ┌──────────┐  ┌──────────┐  ┌──────────┐
+    │  Truck   │  │   Car    │  │ Tractor  │
+    └──────────┘  └────┬─────┘  └──────────┘
+                       │ (IS-A)
+          ┌────────────┼────────────┐
+          ▽            ▽            ▽
+   ┌──────────┐  ┌──────────┐  ┌──────────────┐
+   │SportsCar │  │  Sedan   │  │ SportUtility │
+   └──────────┘  └──────────┘  └──────────────┘
+
+Note: Hollow triangle (△) = Inheritance arrow pointing to SUPERCLASS
+"Trucks, cars, and tractors are special types of MotorVehicles"
+"SportsCar, Sedan, SportUtility are special types of Cars"`,
+explain:"Inheritance diagram: subclasses point UP to their superclass with a hollow triangle. IS-A means 'is a special type of.'"},
+
+// Additional MCQ for all chapters
+{ch:4,type:'mcq',q:"Which of the 7 requirements challenges stems from 'specification and implementation cannot be fully separated'?",
+opts:["Insufficient domain knowledge","Communication barriers","Requirements cannot be definitively specified","Underestimation of effort"],
+ans:"Requirements cannot be definitively specified",
+explain:"Challenge #4: The wicked-problem nature of software means specification and implementation cannot be fully separated. Prototypes help clarify vague requirements."},
+
+{ch:4,type:'mcq',q:"In the Agile approach, what is the 4th principle for requirements elicitation?",
+opts:["Customer collaboration is imperative","Capture requirements at high level","Good enough is enough (20/80)","Just barely enough modeling"],
+ans:"Just barely enough modeling",
+explain:"Agile Principle 4: Just Barely Enough Modeling — before building a model, ask if it will genuinely improve understanding. Build the minimum model that serves that purpose."},
+
+{ch:2,type:'mcq',q:"The Waterfall model is BEST suited for which type of project?",
+opts:["Projects with evolving or unclear requirements","Startup consumer apps with rapid change","Embedded systems, military/defense, stable well-understood requirements","Research and IoT exploratory projects"],
+ans:"Embedded systems, military/defense, stable well-understood requirements",
+explain:"Waterfall is best for embedded systems, military/defense, and projects with stable, well-understood requirements where sequential phases make sense."},
+
+{ch:1,type:'mcq',q:"Jalote identifies THREE top-level strategies for improving software productivity and quality. Which is NOT one of them?",
+opts:["Good processes and methods","Open source software","Large Language Models (LLMs)","Formal mathematical verification"],
+ans:"Formal mathematical verification",
+explain:"Jalote's three strategies: (1) Good Processes & Methods, (2) Open Source Software, (3) Large Language Models (LLMs). Formal verification is not one of them."},
+
+{ch:5,type:'mcq',q:"Which of the following is a 'Tangible thing' category in Domain Modeling brainstorming?",
+opts:["Employee","Department","Sensor","Flight"],
+ans:"Sensor",
+explain:"Categories of things: Tangible (airplane, book, sensor), Roles (employee, customer), Organizational units (department, division), Devices (sensor, timer), Sites/Locations, Incidents/Events."},
+
+{ch:4,type:'mcq',q:"Which of the following statements about the SRS is TRUE?",
+opts:["The SRS is only for internal developer reference","The SRS forms part of a legally binding contract and has legal consequences","The SRS is created after implementation begins","The SRS only documents functional requirements"],
+ans:"The SRS forms part of a legally binding contract and has legal consequences",
+explain:"The SRS is legally binding — failure to deliver what is specified has legal consequences. This is why proper documentation, feasibility study, and thorough review are critical."},
+
+{ch:2,type:'mcq',q:"What is 'Collective Ownership' in XP?",
+opts:["The Product Owner owns all code decisions","Any developer can change any piece of code at any time — no silos","Only senior developers can modify core modules","The team collectively owns the product backlog"],
+ans:"Any developer can change any piece of code at any time — no silos",
+explain:"Collective Ownership in XP: any developer can change any piece of code at any time. The whole team is responsible for the whole codebase — no knowledge silos."},
+
+{ch:1,type:'mcq',q:"The ACM/IEEE Code of Ethics consists of how many principles?",
+opts:["Four","Six","Eight","Ten"],
+ans:"Eight",
+explain:"The ACM/IEEE Code of Ethics has 8 principles: PUBLIC, CLIENT AND EMPLOYER, PRODUCT, JUDGMENT, MANAGEMENT, PROFESSION, COLLEAGUES, SELF."},
+
+{ch:2,type:'mcq',q:"Which Agile framework was created by Kent Beck in the late 1990s and focuses on engineering practices?",
+opts:["Scrum","Kanban","XP (eXtreme Programming)","SAFe"],
+ans:"XP (eXtreme Programming)",
+explain:"XP (eXtreme Programming) was created by Kent Beck. While Scrum focuses on process/team structure, XP focuses on specific engineering practices (TDD, Pair Programming, CI, etc.)."},
+
+// More FILL questions
+{ch:2,type:'fill',q:"In XP, the practice where two developers share one keyboard — one writes, the other reviews in real time — is called ______ Programming.",
+ans:"Pair",explain:"Pair Programming: two developers at one keyboard. Catches bugs instantly and spreads knowledge across the team."},
+
+{ch:4,type:'fill',q:"The requirements elicitation technique where the analyst observes from within the organization is called ______.",
+ans:"Ethnography",explain:"Ethnography: observe from within (inside-out). Think like a user. Understand the real-world work environment."},
+
+{ch:1,type:'fill',q:"The acronym for the eight-principle professional code for software engineers is ACM/______ Code of Ethics.",
+ans:"IEEE",explain:"The ACM/IEEE Joint Task Force produced the Software Engineering Code of Ethics and Professional Practice."},
+
+{ch:4,type:'fill',q:"According to the IEEE Std 830-1998, section ______ contains the core detailed requirements of the SRS.",
+ans:"3",explain:"Section 3 (Specific Requirements) is the core section of IEEE Std 830-1998, containing detailed functional, performance, and design constraint requirements."},
+
+{ch:5,type:'fill',q:"In a UML Class Diagram, a class that has both a compact view (just the class name) and an expanded view (name + attributes + operations) — the two views are called ______ View and ______ View.",
+ans:"Compact and Expanded",explain:"UML class notation: Compact View shows only the class name; Expanded View shows name, attributes list, and operations list."},
+
+// More ENUMERATE
+{ch:1,type:'enum',q:"List the EIGHT principles of the ACM/IEEE Code of Ethics:",
+items:["1. PUBLIC – act consistently with the public interest","2. CLIENT AND EMPLOYER – act in best interests of client and employer, consistent with public interest","3. PRODUCT – ensure products meet the highest professional standards","4. JUDGMENT – maintain integrity and independence in professional judgment","5. MANAGEMENT – promote an ethical approach to SE management","6. PROFESSION – advance the integrity and reputation of the profession","7. COLLEAGUES – be fair to and supportive of colleagues","8. SELF – participate in lifelong learning; promote ethical practice"],
+explain:"Eight ACM/IEEE ethics principles: Public, Client/Employer, Product, Judgment, Management, Profession, Colleagues, Self."},
+
+{ch:2,type:'enum',q:"List the advantages and disadvantages of the Waterfall model:",
+items:["ADVANTAGES: 1. Simple to plan, schedule, and manage | 2. Clear milestones and documentation | 3. Functional team specialization possible | 4. Suitable for large embedded systems | 5. Works well when requirements are stable","DISADVANTAGES: 1. Difficult to respond to requirements change | 2. No working software until late in lifecycle | 3. Users cannot experiment or provide feedback until release | 4. Long development duration often unacceptable | 5. Customer cannot benefit during development period"],
+explain:"Waterfall pros: simple, clear milestones, good for stable requirements. Cons: rigid, slow, no early working software."},
+
+{ch:4,type:'enum',q:"List the FIVE requirements management activities:",
+items:["1. Definition & Prioritizing – identify business needs; formulate functional/NFR/constraints; assign priority weights","2. Quality Management – ensure requirements are clearly specified, correct, consistent; link to test cases","3. Risk Management – identify/prioritize requirements-related risks; define resolution measures; monitor","4. Traceability Management – track dependencies between requirements, analysis models, design, code, test cases","5. Change Management – identify/analyze change needs; conduct impact and cost-benefit analysis; implement approved changes"],
+explain:"Five requirements management activities: Definition, Quality, Risk, Traceability, Change Management."},
+
+// More MATCH
+{ch:2,type:'match',q:"Match each XP practice with its description:",
+pairs:[
+  ["Test-Driven Development","Write the failing test BEFORE writing the code (Red-Green-Refactor)"],
+  ["Pair Programming","Two developers share one keyboard — one codes, one reviews in real time"],
+  ["Continuous Integration","Merge code to main branch multiple times daily; automated tests on every merge"],
+  ["Refactoring","Improve code structure without changing its behavior; keeps codebase clean"],
+  ["On-site Customer","Real customer representative sits with the team full-time to clarify requirements"],
+  ["Simple Design","Build only what is needed right now; the simplest design that passes all tests"]
+],
+explain:"XP practices: TDD, Pair Programming, CI, Refactoring, On-site Customer, Simple Design."},
+
+{ch:1,type:'match',q:"Match each Software Domain with a correct example:",
+pairs:[
+  ["System Software","Operating system, device drivers, compilers"],
+  ["Embedded Software","Automotive ABS, microwave controls, medical device firmware"],
+  ["AI Software","Machine learning, robotics, pattern recognition, game-playing programs"],
+  ["Web/Mobile Apps","E-commerce platforms, cloud services, mobile banking apps"],
+  ["Engineering/Scientific Software","CAD programs, astronomy simulation, meteorological modeling"],
+  ["Application Software","Word processors, spreadsheets, ERP business systems"]
+],
+explain:"Seven software domains: System, Embedded, AI, Web/Mobile, Engineering/Scientific, Application, and Product-Line."},
+
+{ch:5,type:'match',q:"Match each UML multiplicity notation with its meaning:",
+pairs:[
+  ["1","One and only one (mandatory)"],
+  ["0..1","Zero or one (optional)"],
+  ["1..*","One or more (mandatory)"],
+  ["0..*  or  *","Zero or more (optional, no upper limit)"],
+  ["1..1","One and only one — alternate notation (mandatory)"],
+  ["0..* (alternate)","Zero or more (optional) — used in many tools as just *"]
+],
+explain:"UML multiplicity: 1=exactly one, 0..1=optional, 1..*=one or more mandatory, 0..*=zero or more optional."},
+
+// Additional Draw questions
+{ch:4,type:'draw',
+q:"Illustrate the difference between a Functional Requirement and a Constraint using a diagram or table format.",
+hint:`Requirements vs. Constraints
+┌────────────────────┬──────────────────────────────────┬──────────────────────────────┐
+│    Element         │        Definition                 │         Example              │
+├────────────────────┼──────────────────────────────────┼──────────────────────────────┤
+│ REQUIREMENT        │ A capability the system must      │ "The system shall allow      │
+│ (functional)       │ deliver — defines WHAT it does    │  users to search by date"    │
+├────────────────────┼──────────────────────────────────┼──────────────────────────────┤
+│ CONSTRAINT         │ A restriction on the solution     │ "The system must be          │
+│                    │ space — narrows HOW it's built    │  implemented in Java only"   │
+└────────────────────┴──────────────────────────────────┴──────────────────────────────┘
+
+⚠️ TRICKY CASE:
+"Express packages are constrained to 150 lbs"
+→ This describes WHAT the system must REJECT = FUNCTIONAL REQUIREMENT
+   (not a constraint — it doesn't restrict implementation)
+
+Both are documented in the SRS (Software Requirements Specification).`,
+explain:"Key distinction: Requirements define WHAT the system does; Constraints restrict HOW it can be built. Some statements with 'constrained' are actually requirements!"},
+
+{ch:1,type:'draw',
+q:"Draw the Software Failure Curve comparison: (A) Hardware 'Bathtub Curve' vs. (B) Software 'Idealized' vs. (C) Software 'Actual' (with deterioration spikes).",
+hint:`(A) HARDWARE — Bathtub Curve:
+Failure
+Rate
+  │╲                         ╱│
+  │  ╲                     ╱  │
+  │    ╲___________________╱  │
+  │  Infant  Stable Period   Wear│
+  └──────────────────────────────▶ Time
+
+(B) SOFTWARE — Idealized Model:
+Failure
+Rate
+  │╲
+  │  ╲____________________________
+  │   (decreases as bugs are fixed)
+  └──────────────────────────────▶ Time
+
+(C) SOFTWARE — Actual Reality (Deterioration):
+Failure
+Rate     Change  Change  Change
+  │  ↑spike  ↑spike  ↑spike
+  │ ╱╲     ╱╲     ╱╲
+  │╱  ╲___╱  ╲___╱  ╲___
+  │  (each change introduces new errors)
+  │  minimum failure level RISES over time
+  └──────────────────────────────▶ Time
+
+Key Insight: No spare parts for software. 
+Every failure = a design error.`,
+explain:"Hardware wears out physically (bathtub curve). Software doesn't wear out but deteriorates — each change spikes failure rate and the overall minimum rises over time."},
+
 ];
 
-function shuffleArray(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-let examQuestions = RAW_QUESTIONS.map(q => {
-  const shuffledOpts = shuffleArray([...q.options]);
-  return { text: q.text, options: shuffledOpts, correctText: q.correctText };
-});
-
-const total = examQuestions.length;
-let currentIndex = 0;
-let userSelections = new Array(total).fill(null);
-
-const questionTextEl = document.getElementById("questionText");
-const optionsContainer = document.getElementById("optionsContainer");
-const currentQSpan = document.getElementById("currentQNumber");
-const totalQSpan = document.getElementById("totalQCount");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-const clearBtn = document.getElementById("clearChoiceBtn");
-const submitBtn = document.getElementById("submitExamBtn");
-const resultPanel = document.getElementById("resultPanel");
-const timerDisplay = document.getElementById("timerDisplay");
-
-totalQSpan.textContent = total;
-let timeSeconds = 60 * 60;
+// ═══════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════
+let mode = 'study';
+let questions = [];
+let currentIdx = 0;
+let answers = [];
+let timerSec = 3600;
 let timerInterval = null;
+let selectedChs = [1,2,4,5];
+let submitted = false;
+let matchState = {};
+let drawState = {};
+let lastMode = 'study';
 
-function formatTime(sec) {
-  let mins = Math.floor(sec / 60);
-  let remain = sec % 60;
-  return `${mins.toString().padStart(2,'0')}:${remain.toString().padStart(2,'0')}`;
+const TYPE_LABELS = {mcq:'Multiple Choice',fill:'Fill in Blank',enum:'Enumerate',match:'Matching',draw:'Drawing'};
+
+function toggleCh(n, el){
+  if(selectedChs.includes(n)){
+    if(selectedChs.length>1){ selectedChs=selectedChs.filter(x=>x!==n); el.classList.remove('active'); }
+  } else { selectedChs.push(n); el.classList.add('active'); }
 }
-function startTimer() {
-  if (timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    if (timeSeconds <= 0) {
-      clearInterval(timerInterval);
-      timerDisplay.textContent = "00:00";
-      alert("Time is up! Submitting exam.");
-      finishExam();
-    } else {
-      timeSeconds--;
-      timerDisplay.textContent = formatTime(timeSeconds);
-    }
-  }, 1000);
-}
-function stopTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = null; }
-function finishExam() {
-  stopTimer();
-  let score = 0;
-  for (let i = 0; i < total; i++) if (userSelections[i] && userSelections[i] === examQuestions[i].correctText) score++;
-  resultPanel.style.display = "block";
-  resultPanel.innerHTML = `<div style="background:#e6f3e6; padding:14px; border-radius:50px;">✅ Exam submitted! Score: ${score} / ${total} (${Math.round(score/total*100)}%)</div>`;
-  prevBtn.disabled = nextBtn.disabled = clearBtn.disabled = submitBtn.disabled = true;
-  document.querySelectorAll('input[type="radio"]').forEach(r => r.disabled = true);
-}
-function applyFeedback() {
-  const selected = userSelections[currentIndex];
-  const correctAns = examQuestions[currentIndex].correctText;
-  const items = document.querySelectorAll('.option-item');
-  items.forEach(div => { div.classList.remove('correct-user-choice','wrong-user-choice','correct-answer-display'); const icon = div.querySelector('.feedback-icon'); if(icon) icon.remove(); });
-  if (!selected) return;
-  const isUserCorrect = (selected === correctAns);
-  items.forEach(div => {
-    const optSpan = div.querySelector('.option-text');
-    let optText = optSpan.innerText.replace(/[✓✗]/g,'').trim();
-    if (optText === correctAns) {
-      div.classList.add('correct-answer-display');
-      if (!div.querySelector('.feedback-icon')) { let ic = document.createElement('span'); ic.className = 'feedback-icon icon-correct'; ic.innerHTML = ' ✓'; optSpan.appendChild(ic); }
-    }
+
+function launch(m){
+  if(m) lastMode=m;
+  mode=lastMode;
+  submitted=false;
+  questions=shuffle(ALL_Q.filter(q=>selectedChs.includes(q.ch)));
+  if(!questions.length){ alert("Please select at least one chapter."); return; }
+  answers=questions.map(q=>{
+    if(q.type==='mcq') return null;
+    if(q.type==='fill') return '';
+    if(q.type==='enum') return false;
+    if(q.type==='match') return null;
+    if(q.type==='draw') return {shown:false};
+    return null;
   });
-  items.forEach(div => {
-    const optSpan = div.querySelector('.option-text');
-    let optText = optSpan.innerText.replace(/[✓✗]/g,'').trim();
-    if (optText === selected) {
-      if (isUserCorrect) { div.classList.add('correct-user-choice'); if (!div.querySelector('.feedback-icon')) { let ic = document.createElement('span'); ic.className = 'feedback-icon icon-correct'; ic.innerHTML = ' ✓'; optSpan.appendChild(ic); } }
-      else { div.classList.add('wrong-user-choice'); if (!div.querySelector('.feedback-icon')) { let ic = document.createElement('span'); ic.className = 'feedback-icon icon-wrong'; ic.innerHTML = ' ✗'; optSpan.appendChild(ic); } }
-    }
+  matchState={}; drawState={};
+  currentIdx=0; timerSec=3600;
+  document.getElementById('homeScreen').style.display='none';
+  document.getElementById('examScreen').style.display='block';
+  document.getElementById('modeBadge').textContent=mode==='study'?'📖 Study Mode':'📝 Exam Mode';
+  document.getElementById('timerBox').style.display=mode==='exam'?'flex':'none';
+  document.getElementById('scoreBadge').style.display=mode==='study'?'flex':'none';
+  document.getElementById('submitBtn').style.display=mode==='exam'?'inline-block':'none';
+  document.getElementById('resultPanel').style.display='none';
+  buildTabs();
+  if(mode==='exam') startTimer();
+  render();
+}
+
+function goHome(){ stopTimer(); document.getElementById('homeScreen').style.display='block'; document.getElementById('examScreen').style.display='none'; }
+
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+
+function buildTabs(){
+  const types=[...new Set(questions.map(q=>q.type))];
+  document.getElementById('typeTabs').innerHTML=types.map(t=>`<div class="type-tab" id="tab_${t}" onclick="jumpType('${t}')">${TYPE_LABELS[t]||t}</div>`).join('');
+}
+function updateTabs(){
+  const types=[...new Set(questions.map(q=>q.type))];
+  types.forEach(t=>{ const el=document.getElementById('tab_'+t); if(!el)return; el.classList.remove('active'); if(questions[currentIdx].type===t)el.classList.add('active'); });
+}
+function jumpType(t){ const i=questions.findIndex(q=>q.type===t); if(i>=0){currentIdx=i;render();} }
+
+function startTimer(){ stopTimer(); timerInterval=setInterval(()=>{ timerSec--; const m=Math.floor(timerSec/60),s=timerSec%60; document.getElementById('timerBox').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`; if(timerSec<=0){stopTimer();alert("Time is up!");finalizeExam();} },1000); }
+function stopTimer(){ clearInterval(timerInterval); timerInterval=null; }
+
+function navigate(d){ const n=currentIdx+d; if(n>=0&&n<questions.length){currentIdx=n;render();} }
+function clearAnswer(){ const q=questions[currentIdx]; if(q.type==='mcq'){answers[currentIdx]=null;render();} else if(q.type==='fill'){answers[currentIdx]='';render();} else if(q.type==='match'){matchState[currentIdx]=null;render();} }
+
+function updateScore(){
+  if(mode!=='study') return;
+  let c=0,a=0;
+  questions.forEach((q,i)=>{ if(q.type==='mcq'&&answers[i]!==null){a++;if(answers[i]===q.ans)c++;} });
+  document.getElementById('scoreBadge').textContent=`✅ Score: ${c} correct`;
+}
+
+// ═══════════════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════════════
+function render(){
+  const q=questions[currentIdx];
+  document.getElementById('qNum').textContent=currentIdx+1;
+  document.getElementById('qTotal').textContent=questions.length;
+  document.getElementById('progressFill').style.width=((currentIdx+1)/questions.length*100)+'%';
+  document.getElementById('prevBtn').disabled=currentIdx===0;
+  document.getElementById('nextBtn').textContent=currentIdx===questions.length-1?'⏩ Last':'Next ▶';
+  updateTabs(); updateScore();
+  const chNames={1:'Ch1 – Intro to SE',2:'Ch2 – Process Models',4:'Ch4 – Requirements',5:'Ch5 – Domain Modeling'};
+  const header=`<div class="q-type-label">${TYPE_LABELS[q.type]||q.type}</div><div class="q-chapter-label">${chNames[q.ch]||'Ch'+q.ch}</div>`;
+  const body=document.getElementById('qBody');
+  if(q.type==='mcq') body.innerHTML=header+renderMCQ(q,currentIdx);
+  else if(q.type==='fill') body.innerHTML=header+renderFill(q,currentIdx);
+  else if(q.type==='enum') body.innerHTML=header+renderEnum(q,currentIdx);
+  else if(q.type==='match') body.innerHTML=header+renderMatch(q,currentIdx);
+  else if(q.type==='draw') body.innerHTML=header+renderDraw(q,currentIdx);
+  attachAll();
+}
+
+// MCQ
+function renderMCQ(q,idx){
+  const letters=['A','B','C','D','E','F'];
+  const ua=answers[idx];
+  const fb=mode==='study'&&ua!==null;
+  let html=`<div class="q-text">${esc(q.q)}</div><div class="options-list">`;
+  (q.opts||[]).forEach((opt,i)=>{
+    let cls='option-item';
+    let icon='';
+    if(fb){ if(opt===q.ans){cls+=' opt-show-correct';icon=' ✓';} if(opt===ua&&ua!==q.ans){cls+=' opt-wrong';icon=' ✗';} if(opt===ua&&ua===q.ans){cls+=' opt-correct';icon=' ✓';} }
+    html+=`<div class="${cls}" onclick="pickMCQ(${idx},'${esc2(opt)}')"><input type="radio" name="mcq_${idx}" ${ua===opt?'checked':''} ${submitted?'disabled':''}><span class="opt-letter">${letters[i]}.</span><span class="opt-text">${esc(opt)}${icon?`<span style="font-weight:800;color:${icon===' ✓'?'#4ade80':'#f87171'}">${icon}</span>`:''}</span></div>`;
+  });
+  html+='</div>';
+  if(fb&&q.explain) html+=`<div class="study-explain"><strong>💡 Explanation:</strong> ${esc(q.explain)}</div>`;
+  return html;
+}
+function pickMCQ(idx,val){ if(submitted)return; answers[idx]=val; render(); }
+
+// FILL
+function renderFill(q,idx){
+  const ua=answers[idx]||'';
+  const checked=answers[idx+'_c'];
+  let fb='';
+  if(checked){
+    const ok=ua.trim().toLowerCase()===q.ans.toLowerCase();
+    fb=`<div class="feedback-box ${ok?'feedback-correct':'feedback-wrong'}">${ok?'✅ Correct!':'❌ Incorrect — Correct answer: <strong>'+esc(q.ans)+'</strong>'}</div>`;
+    if(mode==='study'&&q.explain) fb+=`<div class="study-explain"><strong>💡 Explanation:</strong> ${esc(q.explain)}</div>`;
+  }
+  return `<div class="q-text">${esc(q.q)}</div><div class="blank-wrap"><input class="blank-input ${checked?(ua.trim().toLowerCase()===q.ans.toLowerCase()?'correct':'wrong'):''}" id="fi_${idx}" type="text" value="${esc(ua)}" placeholder="Type your answer here..." ${submitted?'disabled':''} oninput="answers[${idx}]=this.value" onkeydown="if(event.key==='Enter')checkFill(${idx})"><br><button class="blank-check-btn" onclick="checkFill(${idx})" ${submitted?'disabled':''}>✔ Check Answer</button></div>${fb}`;
+}
+function checkFill(idx){ answers[idx+'_c']=true; render(); }
+
+// ENUM
+function renderEnum(q,idx){
+  const rev=answers[idx]===true;
+  let html=`<div class="q-text">${esc(q.q)}</div><ul class="enum-list">`;
+  q.items.forEach((item,i)=>{ html+=`<li class="${rev?'enum-visible':'enum-hidden'}"><span class="enum-num">${i+1}.</span><span>${esc(item)}</span></li>`; });
+  html+='</ul>';
+  if(!rev) html+=`<button class="reveal-btn" onclick="answers[${idx}]=true;render()">👁 Reveal Answers</button>`;
+  else { html+=`<button class="reveal-btn" onclick="answers[${idx}]=false;render()">🙈 Hide Answers</button>`; if(mode==='study'&&q.explain) html+=`<div class="study-explain"><strong>💡 Explanation:</strong> ${esc(q.explain)}</div>`; }
+  return html;
+}
+
+// MATCH
+function renderMatch(q,idx){
+  if(!matchState[idx]) matchState[idx]={sel:null,matched:[],done:false,showAll:false};
+  const st=matchState[idx];
+  if(st.showAll||submitted){
+    let html=`<div class="q-text">${esc(q.q)}</div><table style="width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:14px"><tr><th style="background:#1e3a5f;color:#93c5fd;padding:9px;border:1px solid #334155;text-align:left">Term</th><th style="background:#1a1a2e;color:#c4b5fd;padding:9px;border:1px solid #334155;text-align:left">Match</th></tr>`;
+    q.pairs.forEach(p=>{ html+=`<tr><td style="padding:9px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;font-weight:600">${esc(p[0])}</td><td style="padding:9px;border:1px solid #334155;background:#0f172a;color:#cbd5e1">${esc(p[1])}</td></tr>`; });
+    html+=`</table>`;
+    if(mode==='study'&&q.explain) html+=`<div class="study-explain"><strong>💡 Explanation:</strong> ${esc(q.explain)}</div>`;
+    html+=`<button class="match-show-btn" onclick="matchState[${idx}].showAll=false;render()">🎮 Try Interactive</button>`;
+    return html;
+  }
+  const ml=st.matched.map(m=>m.l), mr=st.matched.map(m=>m.r);
+  const rights=shuffle([...q.pairs.map(p=>p[1])]);
+  let html=`<div class="q-text">${esc(q.q)}</div><div style="font-size:.78rem;color:#64748b;margin-bottom:10px">👆 Click a term on the LEFT, then click its match on the RIGHT.</div><div class="match-grid"><div><div class="match-col-header">Terms</div>`;
+  q.pairs.map(p=>p[0]).forEach(item=>{
+    const m=st.matched.find(x=>x.l===item);
+    let cls='match-left-item';
+    if(m) cls+=m.correct?' matched-correct':' matched-wrong';
+    else if(st.sel===item) cls+=' selected';
+    html+=`<div class="${cls}" onclick="matchL(${idx},'${esc2(item)}')">${esc(item)}${m?(' → '+esc(m.r)):''}</div>`;
+  });
+  html+=`</div><div><div class="match-col-header">Definitions</div>`;
+  rights.forEach(item=>{ const used=mr.includes(item); html+=`<div class="match-right-item ${used?'used':''}" onclick="matchR(${idx},'${esc2(item)}')">${esc(item)}</div>`; });
+  html+=`</div></div>`;
+  if(st.matched.length){ const c=st.matched.filter(m=>m.correct).length; html+=`<div style="font-size:.82rem;color:#94a3b8;margin-bottom:8px">Matched: ${st.matched.length}/${q.pairs.length} · Correct: ${c}</div>`; }
+  if(st.done){ const c=st.matched.filter(m=>m.correct).length; html+=`<div class="feedback-box ${c===q.pairs.length?'feedback-correct':'feedback-wrong'}">${c===q.pairs.length?'✅ Perfect!':'❌ Score: '+c+'/'+q.pairs.length+' — check marked answers above'}</div>`; }
+  html+=`<button class="match-show-btn" onclick="matchState[${idx}].showAll=true;render()">📖 Show All Correct Answers</button>`;
+  return html;
+}
+function matchL(idx,item){ if(!matchState[idx])matchState[idx]={sel:null,matched:[],done:false,showAll:false}; const st=matchState[idx]; if(st.matched.find(m=>m.l===item))return; st.sel=st.sel===item?null:item; render(); }
+function matchR(idx,item){ if(!matchState[idx])return; const st=matchState[idx],q=questions[idx]; if(!st.sel)return; if(st.matched.find(m=>m.r===item))return; const corr=q.pairs.find(p=>p[0]===st.sel)?.[1]; st.matched.push({l:st.sel,r:item,correct:item===corr}); st.sel=null; if(st.matched.length===q.pairs.length)st.done=true; render(); }
+
+// DRAW
+function renderDraw(q,idx){
+  if(!drawState[idx]) drawState[idx]={tool:'pen',color:'#1e3a5f',size:4,shown:false};
+  const st=drawState[idx];
+  const colors=['#3b82f6','#ef4444','#22c55e','#f59e0b','#a78bfa','#000000'];
+  let html=`<div class="q-text">${esc(q.q)}</div>`;
+  html+=`<div class="draw-prompt"><strong>📋 Task:</strong> Draw the diagram described above. Use the tools below. Click "Show Reference" to see a text-art model answer when ready.</div>`;
+  html+=`<div class="draw-toolbar">`;
+  ['pen','eraser'].forEach(t=>{ html+=`<button class="draw-tool-btn ${st.tool===t?'active':''}" onclick="setDrawTool(${idx},'${t}')">${t==='pen'?'✏️ Pen':'⬜ Eraser'}</button>`; });
+  html+=`<span style="color:#475569;font-size:.78rem;margin:0 6px">Color:</span>`;
+  colors.forEach(c=>{ html+=`<div class="draw-color-swatch ${st.color===c?'active':''}" style="background:${c};border-color:${st.color===c?'#38bdf8':'#475569'}" onclick="setDrawColor(${idx},'${c}')"></div>`; });
+  html+=`<span style="color:#475569;font-size:.78rem;margin:0 6px">Size:</span><input class="draw-size-slider" type="range" min="2" max="20" value="${st.size}" oninput="setDrawSize(${idx},this.value)">`;
+  html+=`<button class="draw-tool-btn" onclick="clearCanvas(${idx})">🗑 Clear</button>`;
+  html+=`</div>`;
+  html+=`<div class="draw-canvas-wrap"><canvas class="draw-canvas" id="dc_${idx}" width="680" height="300"></canvas></div>`;
+  html+=`<button class="draw-ref-btn" onclick="toggleRef(${idx})">${st.shown?'🙈 Hide Reference':'📐 Show Reference Answer'}</button>`;
+  html+=`<div class="draw-ref-box ${st.shown?'visible':''}" id="dref_${idx}"><div class="draw-ref-title">📐 Reference / Model Answer:</div><pre>${esc(q.hint)}</pre></div>`;
+  if(st.shown&&mode==='study'&&q.explain) html+=`<div class="study-explain"><strong>💡 Explanation:</strong> ${esc(q.explain)}</div>`;
+  return html;
+}
+function setDrawTool(idx,t){ drawState[idx].tool=t; reRenderDraw(idx); }
+function setDrawColor(idx,c){ drawState[idx].color=c; reRenderDraw(idx); }
+function setDrawSize(idx,s){ drawState[idx].size=parseInt(s); }
+function toggleRef(idx){ drawState[idx].shown=!drawState[idx].shown; reRenderDraw(idx); }
+function reRenderDraw(idx){ const q=questions[idx]; const b=document.getElementById('qBody'); const ch=document.getElementById('dc_'+idx); const chTypes={1:'Ch1 – Intro to SE',2:'Ch2 – Process Models',4:'Ch4 – Requirements',5:'Ch5 – Domain Modeling'}; const header=`<div class="q-type-label">${TYPE_LABELS[q.type]||q.type}</div><div class="q-chapter-label">${chTypes[q.ch]||'Ch'+q.ch}</div>`; const saved=ch?ch.toDataURL():null; b.innerHTML=header+renderDraw(q,idx); if(saved){ const nc=document.getElementById('dc_'+idx); if(nc){ const img=new Image(); img.onload=()=>{ const ctx=nc.getContext('2d'); ctx.drawImage(img,0,0); }; img.src=saved; } } attachAll(); }
+function clearCanvas(idx){ const c=document.getElementById('dc_'+idx); if(c){ const ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height); } }
+
+function attachAll(){
+  // attach draw events
+  document.querySelectorAll('.draw-canvas').forEach(canvas=>{
+    if(canvas._bound) return; canvas._bound=true;
+    let drawing=false, lastX=0, lastY=0;
+    const getPos=(e)=>{ const r=canvas.getBoundingClientRect(); const src=e.touches?e.touches[0]:e; return {x:(src.clientX-r.left)*(canvas.width/r.width),y:(src.clientY-r.top)*(canvas.height/r.height)}; };
+    const start=(e)=>{ e.preventDefault(); drawing=true; const {x,y}=getPos(e); lastX=x; lastY=y; };
+    const move=(e)=>{ e.preventDefault(); if(!drawing)return; const {x,y}=getPos(e); const ctx=canvas.getContext('2d'); const idx=parseInt(canvas.id.replace('dc_','')); const st=drawState[idx]||{tool:'pen',color:'#000',size:4}; ctx.beginPath(); ctx.moveTo(lastX,lastY); ctx.lineTo(x,y); if(st.tool==='eraser'){ ctx.strokeStyle='#fff'; ctx.lineWidth=st.size*4; } else { ctx.strokeStyle=st.color; ctx.lineWidth=st.size; } ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke(); lastX=x; lastY=y; };
+    const end=()=>{ drawing=false; };
+    canvas.addEventListener('mousedown',start); canvas.addEventListener('mousemove',move); canvas.addEventListener('mouseup',end); canvas.addEventListener('mouseleave',end);
+    canvas.addEventListener('touchstart',start,{passive:false}); canvas.addEventListener('touchmove',move,{passive:false}); canvas.addEventListener('touchend',end);
   });
 }
-function renderCurrent() {
-  const q = examQuestions[currentIndex];
-  questionTextEl.textContent = q.text;
-  const letters = ['A','B','C','D'];
-  let html = '';
-  q.options.forEach((opt, idx) => {
-    const letter = letters[idx];
-    const checked = (userSelections[currentIndex] === opt);
-    html += `<div class="option-item"><input type="radio" name="questionOption" value="${escapeHtml(opt)}" id="opt_${idx}" ${checked ? 'checked' : ''}><span class="option-letter">${letter}.</span><span class="option-text">${escapeHtml(opt)}</span></div>`;
-  });
-  optionsContainer.innerHTML = html;
-  currentQSpan.textContent = currentIndex+1;
-  document.querySelectorAll('input[name="questionOption"]').forEach(radio => radio.addEventListener('change', (e) => { userSelections[currentIndex] = e.target.value; applyFeedback(); }));
-  document.querySelectorAll('.option-item').forEach(item => item.addEventListener('click', (e) => { const radio = item.querySelector('input[type="radio"]'); if(radio && !radio.checked){ radio.checked=true; userSelections[currentIndex]=radio.value; const ev=new Event('change'); radio.dispatchEvent(ev); } }));
-  if (userSelections[currentIndex]) applyFeedback();
+
+// SUBMIT
+function submitExam(){ if(!confirm("Submit exam? This cannot be undone."))return; stopTimer(); submitted=true; finalizeExam(); }
+function finalizeExam(){
+  stopTimer(); submitted=true;
+  let mc=0,mt=0,fc=0,ft=0;
+  questions.forEach((q,i)=>{ if(q.type==='mcq'){mt++;if(answers[i]===q.ans)mc++;} if(q.type==='fill'){ft++;if(answers[i]&&answers[i].trim().toLowerCase()===q.ans.toLowerCase())fc++;} });
+  const total=mt+ft, correct=mc+fc, pct=total?Math.round(correct/total*100):0;
+  const panel=document.getElementById('resultPanel');
+  panel.style.display='block';
+  panel.innerHTML=`<div class="result-pct">${pct}%</div><div class="result-msg">Exam submitted! You scored <strong>${correct} of ${total}</strong> auto-graded questions.</div><div class="result-breakdown"><div class="rb-card"><div class="rb-num">${mc}/${mt}</div><div class="rb-label">MCQ</div></div><div class="rb-card"><div class="rb-num">${fc}/${ft}</div><div class="rb-label">Fill Blank</div></div></div><div style="font-size:.78rem;color:#475569;margin-top:12px">Enumerate, Matching & Drawing questions are self-assessed.</div><button class="start-btn" style="margin-top:18px" onclick="goHome()">🏠 Back to Home</button>`;
+  render();
 }
-function escapeHtml(str) { return str.replace(/[&<>]/g, m => m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
-function clearChoice() { userSelections[currentIndex] = null; renderCurrent(); }
-function navigate(delta) {
-  let newIdx = currentIndex + delta;
-  if (newIdx >=0 && newIdx < total) { currentIndex = newIdx; renderCurrent(); }
-  nextBtn.textContent = (currentIndex === total-1) ? "⏩ Last" : "Next ▶";
-}
-prevBtn.onclick = () => navigate(-1);
-nextBtn.onclick = () => { if (currentIndex < total-1) navigate(1); };
-clearBtn.onclick = clearChoice;
-submitBtn.onclick = () => { if(confirm("Submit exam? You cannot change answers after.")) finishExam(); };
-renderCurrent();
-startTimer();
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function esc2(s){ return String(s).replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+
+document.getElementById('homeScreen').style.display='block';
+document.getElementById('examScreen').style.display='none';
 </script>
 </body>
 </html>
